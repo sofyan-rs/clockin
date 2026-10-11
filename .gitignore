@@ -1,0 +1,31 @@
+# OS / editor
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Dependencies / build
+node_modules/
+dist/
+.output/
+.nuxt/
+.turbo/
+coverage/
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.prod.example
+
+# Mobile
+.gradle/
+build/
+local.properties
+*.keystore
+*.jks
+xcuserdata/
+Pods/
+
+# Tooling
+.codebase-memory/

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sign out confirmation</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+a{color:#0d6e63}a:hover{color:#0a5249}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; background: #f4f7f6; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #111816; position: relative; overflow: hidden">
+  <div aria-hidden="true" style="display: flex; flex-direction: column; gap: 16px; padding: 32px 16px 16px">
+    <span style="font-size: 24px; line-height: 30px; font-weight: 700; letter-spacing: -0.3px">Profile</span>
+    <div style="display: flex; align-items: center; gap: 14px; background: #ffffff; border-radius: 14px; padding: 16px">
+      <span style="width: 56px; height: 56px; border-radius: 999px; background: #e6f4f1; color: #0a5249; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700">RS</span>
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <span style="font-size: 18px; line-height: 24px; font-weight: 600">Rina Saputri</span>
+        <span style="font-size: 13px; line-height: 18px; font-weight: 500; color: #55625e">Finance Staff · ID 2024017</span>
+      </div>
+    </div>
+    <div style="height: 200px; border-radius: 14px; background: #ffffff"></div>
+    <div style="height: 156px; border-radius: 14px; background: #ffffff"></div>
+  </div>
+
+  <div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(17,24,22,0.55)"></div>
+
+  <section role="alertdialog" aria-modal="true" aria-labelledby="so-title" aria-describedby="so-desc" style="position: absolute; left: 0; right: 0; bottom: 0; background: #ffffff; border-radius: 24px 24px 0 0; padding: 12px 16px 32px; display: flex; flex-direction: column; gap: 20px">
+    <span aria-hidden="true" style="align-self: center; width: 40px; height: 4px; border-radius: 999px; background: #d3dcd9"></span>
+    <div style="display: flex; flex-direction: column; gap: 12px">
+      <span style="width: 56px; height: 56px; border-radius: 999px; background: #fbe6e4; color: #b3261e; display: flex; align-items: center; justify-content: center">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path><path d="M18 15l3 -3"></path><path d="M9 12h12l-3 -3"></path></svg>
+      </span>
+      <h2 id="so-title" style="margin: 0; font-size: 24px; line-height: 30px; font-weight: 700; letter-spacing: -0.3px">Sign out of ClockIn?</h2>
+      <p id="so-desc" style="margin: 0; font-size: 15px; line-height: 22px; color: #55625e">You'll need your employee ID and password to sign in again. This phone stays linked to your account.</p>
+    </div>
+    <div style="display: flex; gap: 10px; align-items: flex-start; background: #fdf0dc; border-radius: 14px; padding: 12px 14px; color: #111816">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9a5200" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 1px"><path d="M12 9v4"></path><path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z"></path><path d="M12 16h.01"></path></svg>
+      <span style="font-size: 13px; line-height: 18px; font-weight: 500">You won't get clock-in or clock-out reminders while signed out.</span>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <a href="Login.html" style="height: 56px; border-radius: 14px; background: #b3261e; color: #ffffff; text-decoration: none; display: flex; align-items: center; justify-content: center; font-size: 17px; line-height: 22px; font-weight: 700">Sign out</a>
+      <a href="Profile.html" style="height: 48px; border-radius: 14px; color: #111816; text-decoration: none; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600">Cancel</a>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

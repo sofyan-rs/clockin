@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Selfie: no face detected</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+a{color:#0d6e63}a:hover{color:#0a5249}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; background: #111816; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #ffffff; display: flex; flex-direction: column; position: relative; overflow: hidden">
+  <header style="display: flex; align-items: center; justify-content: space-between; padding: 24px 8px 8px">
+    <a href="Main.html" style="height: 48px; padding: 0 12px; display: flex; align-items: center; gap: 6px; color: #ffffff; text-decoration: none; font-size: 15px; font-weight: 600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6l6 6"/></svg>Cancel</a>
+    <h1 style="margin: 0; font-size: 15px; line-height: 22px; font-weight: 600">Clock-in selfie</h1>
+    <span style="width: 92px"></span>
+  </header>
+  <div style="flex: 1 1 auto; margin: 8px 16px; border-radius: 24px; background: #2a3331; position: relative; overflow: hidden">
+    <svg width="358" height="520" viewBox="0 0 358 520" aria-hidden="true" style="position: absolute; inset: 0">
+      <circle cx="250" cy="300" r="78" fill="#3b4644"/>
+      <path d="M120 600c0-96 58-160 130-160s130 64 130 160z" fill="#3b4644"/>
+      <ellipse cx="179" cy="240" rx="112" ry="146" fill="none" stroke="#f5b552" stroke-width="3" stroke-dasharray="10 8"/>
+    </svg>
+    <span role="status" style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 6px; background: #fdf0dc; color: #9a5200; font-size: 13px; line-height: 18px; font-weight: 600; padding: 6px 12px 6px 10px; border-radius: 999px; white-space: nowrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8v-2a2 2 0 0 1 2 -2h2"/><path d="M4 16v2a2 2 0 0 0 2 2h2"/><path d="M16 4h2a2 2 0 0 1 2 2v2"/><path d="M16 20h2a2 2 0 0 0 2 -2v-2"/><path d="M9 10h.01"/><path d="M15 10h.01"/><path d="M9.5 15.05a3.5 3.5 0 0 1 5 0"/></svg>No face detected</span>
+    <div style="position: absolute; bottom: 20px; left: 16px; right: 16px; display: flex; flex-direction: column; gap: 4px; text-align: center; color: #ffffff">
+      <span style="font-size: 15px; line-height: 22px; font-weight: 600">Move your face into the frame</span>
+      <span style="font-size: 13px; line-height: 18px; color: #c9d4d1">Find better light and hold the phone at eye level</span>
+    </div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 16px 16px 32px">
+    <div style="font-size: 13px; line-height: 18px; font-weight: 600; color: #c9d4d1; font-variant-numeric: tabular-nums">07:52 WIB · Sudirman Head Office</div>
+    <button type="button" disabled aria-label="Take selfie, waiting for a face" style="width: 80px; height: 80px; border-radius: 999px; border: 4px solid #55625e; background: transparent; display: flex; align-items: center; justify-content: center; cursor: not-allowed; padding: 0"><span style="width: 62px; height: 62px; border-radius: 999px; background: #3b4644; display: block"></span></button>
+    <span style="font-size: 12px; line-height: 16px; font-weight: 500; color: #c9d4d1">The button turns on when your face is in the frame</span>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Notifications</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+a{color:#0d6e63}a:hover{color:#0a5249}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; background: #f4f7f6; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #111816; display: flex; flex-direction: column; overflow: hidden">
+  <header style="display: flex; align-items: center; gap: 4px; padding: 24px 8px 8px 4px; background: #ffffff">
+    <a href="Main.html" aria-label="Back to home" style="width: 48px; height: 48px; border-radius: 999px; display: flex; align-items: center; justify-content: center; color: #111816">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6l6 6"/></svg>
+    </a>
+    <h1 style="margin: 0; flex: 1 1 auto; font-size: 18px; line-height: 24px; font-weight: 600">Notifications</h1>
+    <button type="button" onClick="{{markAll}}" style="height: 48px; padding: 0 12px; border: 0; background: transparent; color: #0d6e63; font-family: inherit; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 12l5 5l10 -10"/><path d="M2 12l5 5m5 -5l5 -5"/></svg>
+      Mark all read
+    </button>
+  </header>
+
+  <div role="tablist" aria-label="Filter notifications" style="display: flex; gap: 8px; padding: 8px 16px 12px; background: #ffffff; border-bottom: 1px solid #d3dcd9">
+    <sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
+      <button type="button" role="tab" aria-selected="{{t.selected}}" onClick="{{t.pick}}" style="{{t.style}}">{{t.label}}</button>
+    </sc-for>
+  </div>
+
+  <main style="flex: 1 1 auto; overflow-y: auto; padding: 8px 0 24px">
+    <sc-for list="{{groups}}" as="g" hint-placeholder-count="2">
+      <section style="display: flex; flex-direction: column">
+        <h2 style="margin: 0; padding: 16px 16px 8px; font-size: 13px; line-height: 18px; font-weight: 600; color: #55625e">{{g.title}}</h2>
+        <sc-for list="{{g.items}}" as="n" hint-placeholder-count="3">
+          <a href="{{n.href}}" onClick="{{n.read}}" style="{{n.rowStyle}}">
+            <span style="{{n.iconStyle}}">
+              <sc-if value="{{n.isAlarm}}" hint-placeholder-val="{{true}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 13m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"/><path d="M12 10l0 3l2 0"/><path d="M7 4l-2.75 2"/><path d="M17 4l2.75 2"/></svg></sc-if>
+              <sc-if value="{{n.isApproved}}" hint-placeholder-val="{{false}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"/><path d="M9 15l2 2l4 -4"/></svg></sc-if>
+              <sc-if value="{{n.isLate}}" hint-placeholder-val="{{false}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.986 12.502a9 9 0 1 0 -5.973 7.98"/><path d="M12 7v5l3 3"/><path d="M19 16v3"/><path d="M19 22v.01"/></svg></sc-if>
+              <sc-if value="{{n.isDeclined}}" hint-placeholder-val="{{false}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/><path d="M10 10l4 4m0 -4l-4 4"/></svg></sc-if>
+              <sc-if value="{{n.isSecurity}}" hint-placeholder-val="{{false}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"/><path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"/><path d="M8 11v-4a4 4 0 1 1 8 0v4"/></svg></sc-if>
+            </span>
+            <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+              <span style="display: flex; justify-content: space-between; gap: 8px; align-items: baseline">
+                <span style="{{n.titleStyle}}">{{n.title}}</span>
+                <span style="flex: 0 0 auto; font-size: 12px; line-height: 16px; font-weight: 500; color: #55625e; font-variant-numeric: tabular-nums">{{n.time}}</span>
+              </span>
+              <span style="font-size: 13px; line-height: 18px; color: #55625e">{{n.body}}</span>
+              <sc-if value="{{n.action}}" hint-placeholder-val="{{false}}">
+                <span style="align-self: flex-start; margin-top: 6px; font-size: 13px; line-height: 18px; font-weight: 600; color: #0d6e63">{{n.action}}</span>
+              </sc-if>
+            </span>
+            <sc-if value="{{n.unread}}" hint-placeholder-val="{{true}}">
+              <span aria-label="Unread" style="width: 10px; height: 10px; flex: 0 0 10px; margin-top: 6px; border-radius: 999px; background: #0d6e63"></span>
+            </sc-if>
+          </a>
+        </sc-for>
+      </section>
+    </sc-for>
+    <sc-if value="{{empty}}" hint-placeholder-val="{{false}}">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 64px 32px; text-align: center">
+        <span style="width: 64px; height: 64px; border-radius: 999px; background: #e6f4f1; color: #0d6e63; display: flex; align-items: center; justify-content: center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 12l5 5l10 -10"/><path d="M2 12l5 5m5 -5l5 -5"/></svg></span>
+        <span style="font-size: 18px; line-height: 24px; font-weight: 600">You're all caught up</span>
+        <span style="font-size: 15px; line-height: 22px; color: #55625e">New reminders and request updates will show up here.</span>
+      </div>
+    </sc-if>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: 'all', read: {} };
+  }
+  renderVals() {
+    var self = this;
+    var tone = {
+      alarm: ['#e6f4f1', '#0d6e63'],
+      approved: ['#e5edfc', '#2858b8'],
+      late: ['#fdf0dc', '#9a5200'],
+      declined: ['#fbe6e4', '#b3261e'],
+      security: ['#e8edeb', '#111816']
+    };
+    var all = [
+      { id: 'n1', group: 'Today', kind: 'alarm', cat: 'reminder', unread: true, time: '07:45', title: 'Shift starts in 15 minutes', body: 'Clock in at Sudirman Head Office before 08:05 to be on time.', action: 'Clock in now', href: 'Main.html' },
+      { id: 'n2', group: 'Today', kind: 'approved', cat: 'request', unread: true, time: '07:12', title: 'Sick leave approved', body: 'Budi Santoso approved your sick leave for Wed, 7 Oct.', action: '', href: '#' },
+      { id: 'n3', group: 'Yesterday', kind: 'alarm', cat: 'reminder', unread: false, time: '17:05', title: "Don't forget to clock out", body: 'Your shift ended at 17:00. Clock out before you leave the office.', action: '', href: '#' },
+      { id: 'n4', group: 'This week', kind: 'late', cat: 'attendance', unread: false, time: 'Tue', title: 'Clocked in late on Tue, 6 Oct', body: 'You clocked in at 08:12, 12 minutes late. If this is wrong, request a correction within 3 work days.', action: 'Request correction', href: 'History.html' },
+      { id: 'n5', group: 'This week', kind: 'declined', cat: 'request', unread: false, time: 'Mon', title: 'Annual leave declined', body: 'Budi Santoso: "Month-end closing that week. Can you move it to 26 Oct?"', action: 'View request', href: '#' },
+      { id: 'n6', group: 'This week', kind: 'security', cat: 'attendance', unread: false, time: 'Mon', title: 'Password changed', body: "Your password was changed on this phone. If this wasn't you, contact HR.", action: '', href: 'ContactHR.html' }
+    ];
+    var st = this.state;
+    var isUnread = function (n) { return n.unread && !st.read[n.id]; };
+    var list = all.filter(function (n) {
+      if (st.tab === 'unread') return isUnread(n);
+      if (st.tab === 'requests') return n.cat === 'request';
+      return true;
+    });
+    var unreadCount = all.filter(isUnread).length;
+    var groups = [];
+    list.forEach(function (n) {
+      var g = groups.find(function (x) { return x.title === n.group; });
+      if (!g) { g = { title: n.group, items: [] }; groups.push(g); }
+      var u = isUnread(n);
+      var c = tone[n.kind];
+      g.items.push({
+        title: n.title, body: n.body, time: n.time, action: n.action, href: n.href, unread: u,
+        isAlarm: n.kind === 'alarm', isApproved: n.kind === 'approved', isLate: n.kind === 'late', isDeclined: n.kind === 'declined', isSecurity: n.kind === 'security',
+        read: function () { var r = Object.assign({}, self.state.read); r[n.id] = true; self.setState({ read: r }); },
+        rowStyle: 'display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; text-decoration: none; color: #111816; border-bottom: 1px solid #d3dcd9; background: ' + (u ? '#ffffff' : 'transparent') + ';',
+        iconStyle: 'width: 40px; height: 40px; flex: 0 0 40px; border-radius: 999px; display: flex; align-items: center; justify-content: center; background: ' + c[0] + '; color: ' + c[1] + ';',
+        titleStyle: 'font-size: 15px; line-height: 22px; font-weight: ' + (u ? '700' : '600') + ';'
+      });
+    });
+    var tabDefs = [['all', 'All'], ['unread', 'Unread' + (unreadCount ? ' · ' + unreadCount : '')], ['requests', 'Requests']];
+    var tabs = tabDefs.map(function (t) {
+      var on = st.tab === t[0];
+      return {
+        label: t[1], selected: on ? 'true' : 'false',
+        pick: function () { self.setState({ tab: t[0] }); },
+        style: 'height: 40px; padding: 0 16px; border-radius: 999px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; ' + (on ? 'border: 0; background: #0d6e63; color: #ffffff;' : 'border: 1px solid #d3dcd9; background: #ffffff; color: #111816;')
+      };
+    });
+    return {
+      tabs: tabs,
+      groups: groups,
+      empty: groups.length === 0,
+      markAll: function () { var r = {}; all.forEach(function (n) { r[n.id] = true; }); self.setState({ read: r }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

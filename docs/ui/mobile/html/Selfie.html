@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Selfie camera</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+a{color:#6fd6c8}a:hover{color:#ffffff}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; background: #111816; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #ffffff; display: flex; flex-direction: column; overflow: hidden">
+  <header style="display: flex; align-items: center; justify-content: space-between; padding: 24px 8px 8px">
+    <a href="Main.html" style="height: 48px; padding: 0 12px; display: flex; align-items: center; gap: 6px; color: #ffffff; text-decoration: none; font-size: 15px; font-weight: 600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6l6 6"/></svg>
+      Cancel
+    </a>
+    <h1 style="margin: 0; font-size: 15px; line-height: 22px; font-weight: 600">Clock-in selfie</h1>
+    <span style="width: 92px"></span>
+  </header>
+
+  <div style="flex: 1 1 auto; margin: 8px 16px; border-radius: 24px; background: #2a3331; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center">
+    <svg width="358" height="520" viewBox="0 0 358 520" aria-hidden="true" style="position: absolute; inset: 0">
+      <circle cx="179" cy="236" r="78" fill="#3b4644"/>
+      <path d="M49 520c0-96 58-160 130-160s130 64 130 160z" fill="#3b4644"/>
+      <ellipse cx="179" cy="240" rx="112" ry="146" fill="none" stroke="#5bd08b" stroke-width="3"/>
+    </svg>
+    <span role="status" style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 6px; background: #e3f4e9; color: #1c7a43; font-size: 13px; line-height: 18px; font-weight: 600; padding: 6px 12px 6px 10px; border-radius: 999px; white-space: nowrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg>
+      Face detected
+    </span>
+    <span style="position: absolute; bottom: 20px; left: 16px; right: 16px; text-align: center; font-size: 15px; line-height: 22px; font-weight: 500; color: #ffffff">Keep your face inside the frame</span>
+  </div>
+
+  <div style="display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 16px 16px 32px">
+    <div style="display: flex; align-items: center; gap: 12px; font-size: 13px; line-height: 18px; font-weight: 600; color: #c9d4d1; font-variant-numeric: tabular-nums">
+      <span style="display: inline-flex; align-items: center; gap: 6px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 7v5l3 3"/></svg>
+        07:52 WIB
+      </span>
+      <span aria-hidden="true">·</span>
+      <span style="display: inline-flex; align-items: center; gap: 6px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"/></svg>
+        Sudirman Head Office
+      </span>
+    </div>
+    <a href="Confirm.html" aria-label="Take selfie" style="width: 80px; height: 80px; border-radius: 999px; border: 4px solid #ffffff; display: flex; align-items: center; justify-content: center; text-decoration: none">
+      <span style="width: 62px; height: 62px; border-radius: 999px; background: #3fbfae; display: block"></span>
+    </a>
+    <span style="font-size: 12px; line-height: 16px; font-weight: 500; color: #c9d4d1">Front camera only · gallery photos aren't accepted</span>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

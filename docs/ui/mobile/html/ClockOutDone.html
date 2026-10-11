@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Clock-out confirmation</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+a{color:#0d6e63}a:hover{color:#0a5249}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; background: #f4f7f6; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #111816; display: flex; flex-direction: column; padding: 56px 16px 32px; gap: 24px; overflow: hidden">
+  <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
+    <span style="width: 72px; height: 72px; border-radius: 999px; background: #e3f4e9; color: #1c7a43; display: flex; align-items: center; justify-content: center">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg>
+    </span>
+    <h1 style="margin: 0; font-size: 24px; line-height: 30px; font-weight: 700; letter-spacing: -0.3px">You're clocked out</h1>
+    <p style="margin: 0; font-size: 15px; line-height: 22px; color: #55625e">Thanks for today, Rina. Get home safe.</p>
+  </div>
+
+  <section aria-label="Today's summary" style="background: #ffffff; border-radius: 24px; box-shadow: 0 1px 2px rgba(17,24,22,0.06), 0 4px 12px rgba(17,24,22,0.06); overflow: hidden">
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-bottom: 1px solid #d3dcd9; font-variant-numeric: tabular-nums">
+      <div style="padding: 16px; display: flex; flex-direction: column; gap: 4px; border-right: 1px solid #d3dcd9">
+        <span style="font-size: 13px; line-height: 18px; font-weight: 600; color: #55625e">Clock in</span>
+        <span style="font-size: 32px; line-height: 38px; font-weight: 700; letter-spacing: -0.5px">07:52</span>
+      </div>
+      <div style="padding: 16px; display: flex; flex-direction: column; gap: 4px">
+        <span style="font-size: 13px; line-height: 18px; font-weight: 600; color: #55625e">Clock out</span>
+        <span style="font-size: 32px; line-height: 38px; font-weight: 700; letter-spacing: -0.5px">17:08</span>
+      </div>
+    </div>
+    <dl style="margin: 0; padding: 4px 16px">
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #d3dcd9">
+        <dt style="font-size: 15px; line-height: 22px; color: #55625e">Worked</dt>
+        <dd style="margin: 0; font-size: 15px; line-height: 22px; font-weight: 600; font-variant-numeric: tabular-nums">9h 16m</dd>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #d3dcd9">
+        <dt style="font-size: 15px; line-height: 22px; color: #55625e">Status</dt>
+        <dd style="margin: 0"><span style="display: inline-flex; align-items: center; gap: 4px; background: #e3f4e9; color: #1c7a43; font-size: 13px; line-height: 18px; font-weight: 600; padding: 3px 10px 3px 8px; border-radius: 999px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg>On time</span></dd>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #d3dcd9">
+        <dt style="font-size: 15px; line-height: 22px; color: #55625e">Location</dt>
+        <dd style="margin: 0; font-size: 15px; line-height: 22px; font-weight: 600">Sudirman Head Office</dd>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0">
+        <dt style="font-size: 15px; line-height: 22px; color: #55625e">Selfies</dt>
+        <dd style="margin: 0; display: flex; gap: 6px">
+          <span role="img" aria-label="Clock-in selfie" style="width: 32px; height: 40px; border-radius: 8px; background: #e8edeb; overflow: hidden; display: block"><svg width="32" height="40" viewBox="0 0 32 40" aria-hidden="true"><circle cx="16" cy="16" r="7" fill="#c4cfcc"/><path d="M3 40c0-9 6-14 13-14s13 5 13 14z" fill="#c4cfcc"/></svg></span>
+          <span role="img" aria-label="Clock-out selfie" style="width: 32px; height: 40px; border-radius: 8px; background: #e8edeb; overflow: hidden; display: block"><svg width="32" height="40" viewBox="0 0 32 40" aria-hidden="true"><circle cx="16" cy="16" r="7" fill="#c4cfcc"/><path d="M3 40c0-9 6-14 13-14s13 5 13 14z" fill="#c4cfcc"/></svg></span>
+        </dd>
+      </div>
+    </dl>
+  </section>
+
+  <div style="flex: 1 1 auto"></div>
+
+  <a href="HomeDone.html" style="height: 56px; border-radius: 14px; background: #0d6e63; color: #ffffff; text-decoration: none; display: flex; align-items: center; justify-content: center; font-size: 17px; line-height: 22px; font-weight: 700; box-shadow: 0 8px 24px rgba(13,110,99,0.22)">Done</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

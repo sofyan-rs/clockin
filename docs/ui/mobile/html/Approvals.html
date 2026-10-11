@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Approvals</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+a{color:#0d6e63}a:hover{color:#0a5249}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; background: #f4f7f6; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #111816; display: flex; flex-direction: column; position: relative; overflow: hidden">
+  <main style="flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: 14px; padding: 32px 16px 16px; overflow-y: auto">
+    <h1 style="margin: 0; font-size: 24px; line-height: 30px; font-weight: 700; letter-spacing: -0.3px">Requests</h1>
+    <div role="tablist" aria-label="Request view" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 14px; background: #e8edeb">
+      <a href="Requests.html" role="tab" aria-selected="false" style="height: 44px; border-radius: 10px; color: #55625e; text-decoration: none; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600">My requests</a>
+      <a href="Approvals.html" role="tab" aria-selected="true" style="height: 44px; border-radius: 10px; background: #ffffff; color: #0d6e63; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; font-weight: 700; box-shadow: 0 1px 2px rgba(17,24,22,0.12)">To approve <span style="min-width: 22px; height: 22px; padding: 0 6px; border-radius: 999px; background: #b3261e; color: #ffffff; font-size: 12px; line-height: 22px; font-weight: 700; text-align: center">3</span></a>
+    </div>
+    <section style="background: #ffffff; border-radius: 14px; padding: 14px 16px 4px; display: flex; flex-direction: column; gap: 4px; box-shadow: 0 1px 2px rgba(17,24,22,0.06), 0 4px 12px rgba(17,24,22,0.06);"><div style="display: flex; justify-content: space-between; align-items: baseline"><h2 style="margin: 0; font-size: 15px; line-height: 22px; font-weight: 600">Waiting for you</h2><span style="font-size: 12px; line-height: 16px; color: #55625e">Oldest first</span></div>
+      <div style="display: flex; flex-direction: column">
+        <a href="ApprovalDetail.html" style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #d3dcd9; text-decoration: none; color: #111816">
+          <span style="position: relative; width: 44px; height: 44px; flex: 0 0 44px">
+            <span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 999px; background: #e8edeb; color: #55625e; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center">YH</span>
+            <span style="position: absolute; right: -4px; bottom: -4px; width: 24px; height: 24px; border-radius: 999px; background: #e6f4f1; color: #0d6e63; border: 2px solid #ffffff; display: flex; align-items: center; justify-content: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.984 12.535a9 9 0 1 0 -8.468 8.45"/><path d="M16 19h6"/><path d="M19 16v6"/><path d="M12 7v5l3 3"/></svg></span>
+          </span>
+          <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+            <span style="font-size: 15px; line-height: 22px; font-weight: 600">Yusuf Hakim</span>
+            <span style="font-size: 12px; line-height: 16px; color: #55625e; font-variant-numeric: tabular-nums">Overtime · 7 Oct · 2h 30m</span>
+          </span>
+          <span style="flex: 0 0 auto; font-size: 12px; line-height: 16px; font-weight: 500; color: #55625e">2 days</span>
+        </a>
+        <a href="ApprovalDetail.html" style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #d3dcd9; text-decoration: none; color: #111816">
+          <span style="position: relative; width: 44px; height: 44px; flex: 0 0 44px">
+            <span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 999px; background: #e8edeb; color: #55625e; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center">RS</span>
+            <span style="position: absolute; right: -4px; bottom: -4px; width: 24px; height: 24px; border-radius: 999px; background: #e5edfc; color: #2858b8; border: 2px solid #ffffff; display: flex; align-items: center; justify-content: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.553 16.75a7.5 7.5 0 0 0 -10.606 0"/><path d="M18 3.804a6 6 0 0 0 -8.196 2.196l10.392 6a6 6 0 0 0 -2.196 -8.196z"/><path d="M16.732 10c1.658 -2.87 2.225 -5.644 1.268 -6.196c-.957 -.552 -3.075 1.326 -4.732 4.196"/><path d="M15 9l-3 5.196"/><path d="M3 19.25a2.4 2.4 0 0 1 1 -.25a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 1 .25"/></svg></span>
+          </span>
+          <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+            <span style="font-size: 15px; line-height: 22px; font-weight: 600">Rina Saputri</span>
+            <span style="font-size: 12px; line-height: 16px; color: #55625e; font-variant-numeric: tabular-nums">Annual leave · 26–27 Oct · 2 days</span>
+          </span>
+          <span style="flex: 0 0 auto; font-size: 12px; line-height: 16px; font-weight: 500; color: #55625e">1 day</span>
+        </a>
+        <a href="ApprovalDetail.html" style="display: flex; align-items: center; gap: 12px; padding: 12px 0; text-decoration: none; color: #111816">
+          <span style="position: relative; width: 44px; height: 44px; flex: 0 0 44px">
+            <span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 999px; background: #e8edeb; color: #55625e; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center">BL</span>
+            <span style="position: absolute; right: -4px; bottom: -4px; width: 24px; height: 24px; border-radius: 999px; background: #e5edfc; color: #2858b8; border: 2px solid #ffffff; display: flex; align-items: center; justify-content: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 8v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2"/><path d="M4 8m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"/><path d="M10 14h4"/><path d="M12 12v4"/></svg></span>
+          </span>
+          <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+            <span style="font-size: 15px; line-height: 22px; font-weight: 600">Bunga Lestari</span>
+            <span style="font-size: 12px; line-height: 16px; color: #55625e; font-variant-numeric: tabular-nums">Sick leave · 8 Oct · 1 day</span>
+          </span>
+          <span style="flex: 0 0 auto; font-size: 12px; line-height: 16px; font-weight: 500; color: #55625e">3 h</span>
+        </a>
+      </div></section>
+    <section style="background: #ffffff; border-radius: 14px; padding: 14px 16px 4px; display: flex; flex-direction: column; gap: 4px; box-shadow: 0 1px 2px rgba(17,24,22,0.06), 0 4px 12px rgba(17,24,22,0.06);"><h2 style="margin: 0; font-size: 15px; line-height: 22px; font-weight: 600">Done this week</h2>
+      <div style="display: flex; flex-direction: column">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #d3dcd9"><span style="flex: 1 1 auto; display: flex; flex-direction: column"><span style="font-size: 15px; line-height: 22px; font-weight: 600">Fajar Nugroho</span><span style="font-size: 12px; line-height: 16px; color: #55625e">Correction · 5 Oct</span></span><span style="align-self: flex-start; flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; background: #e3f4e9; color: #1c7a43; font-size: 12px; line-height: 18px; font-weight: 600; padding: 3px 10px 3px 8px; border-radius: 999px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg>Approved</span></div>
+        <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0"><span style="flex: 1 1 auto; display: flex; flex-direction: column"><span style="font-size: 15px; line-height: 22px; font-weight: 600">Rina Saputri</span><span style="font-size: 12px; line-height: 16px; color: #55625e">Annual leave · 19–23 Oct</span></span><span style="align-self: flex-start; flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; background: #fbe6e4; color: #b3261e; font-size: 12px; line-height: 18px; font-weight: 600; padding: 3px 10px 3px 8px; border-radius: 999px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6l-12 12"/><path d="M6 6l12 12"/></svg>Declined</span></div>
+      </div></section>
+    <p style="margin: 0; font-size: 12px; line-height: 16px; color: #55625e; text-align: center">"To approve" only shows for team leads, managers and HR.</p>
+  </main>
+  <nav aria-label="Main navigation" style="height: 72px; flex: 0 0 72px; background: #ffffff; box-shadow: 0 -1px 0 #d3dcd9; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px 8px 10px">
+    <a href="Main.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; text-decoration: none; color: #55625e">
+      <span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 8.71l-5.333 -4.148a2.666 2.666 0 0 0 -3.274 0l-5.334 4.148a2.665 2.665 0 0 0 -1.029 2.105v7.2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-7.2c0 -.823 -.38 -1.6 -1.03 -2.105"/><path d="M16 15c-2.21 1.333 -5.792 1.333 -8 0"/></svg></span>
+      <span style="font-size: 12px; line-height: 16px; font-weight: 500">Home</span>
+    </a>
+    <a href="History.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; text-decoration: none; color: #55625e">
+      <span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"/><path d="M16 3l0 4"/><path d="M8 3l0 4"/><path d="M4 11l16 0"/><path d="M8 15h2v2h-2z"/></svg></span>
+      <span style="font-size: 12px; line-height: 16px; font-weight: 500">History</span>
+    </a>
+    <a href="Requests.html" aria-current="page" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; text-decoration: none; color: #0d6e63">
+      <span style="position: relative; width: 56px; height: 30px; border-radius: 999px; background: #e6f4f1; display: flex; align-items: center; justify-content: center"><span aria-label="3 waiting for approval" style="position: absolute; top: -6px; right: 4px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: #b3261e; color: #ffffff; border: 2px solid #ffffff; box-sizing: content-box; font-size: 11px; line-height: 18px; font-weight: 700; text-align: center">3</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"/><path d="M9 9l1 0"/><path d="M9 13l6 0"/><path d="M9 17l6 0"/></svg></span>
+      <span style="font-size: 12px; line-height: 16px; font-weight: 700">Requests</span>
+    </a>
+    <a href="Profile.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; text-decoration: none; color: #55625e">
+      <span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/></svg></span>
+      <span style="font-size: 12px; line-height: 16px; font-weight: 500">Profile</span>
+    </a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

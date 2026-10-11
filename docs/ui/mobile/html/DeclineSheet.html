@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Decline request</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+a{color:#0d6e63}a:hover{color:#0a5249}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; background: #f4f7f6; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #111816; display: flex; flex-direction: column; position: relative; overflow: hidden">
+  <div aria-hidden="true" style="display: flex; flex-direction: column; gap: 16px; padding: 24px 16px">
+    <div style="height: 48px; display: flex; align-items: center; padding-left: 40px; font-size: 18px; font-weight: 600">Review request</div>
+    <div style="height: 300px; border-radius: 24px; background: #ffffff"></div>
+    <div style="height: 64px; border-radius: 14px; background: #fdf0dc"></div>
+  </div>
+  <div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(17,24,22,0.55)"></div>
+  <section role="dialog" aria-modal="true" aria-labelledby="dc-title" style="position: absolute; left: 0; right: 0; bottom: 0; background: #ffffff; border-radius: 24px 24px 0 0; padding: 12px 16px 28px; display: flex; flex-direction: column; gap: 16px">
+    <span aria-hidden="true" style="align-self: center; width: 40px; height: 4px; border-radius: 999px; background: #d3dcd9"></span>
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <h2 id="dc-title" style="margin: 0; font-size: 24px; line-height: 30px; font-weight: 700; letter-spacing: -0.3px">Decline Rina's leave?</h2>
+      <p style="margin: 0; font-size: 15px; line-height: 22px; color: #55625e">Annual leave, 26–27 Oct. Declining closes the request for all approvers.</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <label for="dc-note" style="font-size: 13px; line-height: 18px; font-weight: 600">Reason <span style="color: #b3261e">(required)</span></label>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px">
+        <button type="button" style="height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid #d3dcd9; background: #ffffff; font-family: inherit; font-size: 13px; font-weight: 600; color: #111816; cursor: pointer">Team is short-staffed</button>
+        <button type="button" style="height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid #d3dcd9; background: #ffffff; font-family: inherit; font-size: 13px; font-weight: 600; color: #111816; cursor: pointer">Please pick other dates</button>
+        <button type="button" style="height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid #d3dcd9; background: #ffffff; font-family: inherit; font-size: 13px; font-weight: 600; color: #111816; cursor: pointer">Deadline that week</button>
+      </div>
+      <textarea id="dc-note" rows="3" style="border: 2px solid #0d6e63; border-radius: 8px; padding: 11px 13px; font-family: inherit; font-size: 15px; line-height: 22px; color: #111816; resize: none">Month-end closing that week. Can you move it to 2–3 Nov?</textarea>
+      <span style="font-size: 12px; line-height: 16px; color: #55625e">Rina will see this note.</span>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <a href="Approvals.html" style="height: 56px; border-radius: 14px; background: #b3261e; color: #ffffff; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 17px; line-height: 22px; font-weight: 700">Decline request</a>
+      <a href="ApprovalDetail.html" style="height: 48px; border-radius: 14px; color: #111816; text-decoration: none; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600">Cancel</a>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

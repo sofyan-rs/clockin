@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reminder settings</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+a{color:#0d6e63}a:hover{color:#0a5249}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; background: #f4f7f6; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #111816; display: flex; flex-direction: column; overflow: hidden">
+  <header style="display: flex; align-items: center; gap: 4px; padding: 24px 16px 8px 4px">
+    <a href="Profile.html" aria-label="Back to profile" style="width: 48px; height: 48px; border-radius: 999px; display: flex; align-items: center; justify-content: center; color: #111816">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6l6 6"/></svg>
+    </a>
+    <h1 style="margin: 0; font-size: 18px; line-height: 24px; font-weight: 600">Reminders</h1>
+  </header>
+
+  <main style="flex: 1 1 auto; display: flex; flex-direction: column; gap: 16px; padding: 8px 16px 24px; overflow-y: auto">
+    <section aria-labelledby="r-in" style="background: #ffffff; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 1px 2px rgba(17,24,22,0.06), 0 4px 12px rgba(17,24,22,0.06)">
+      <div style="display: flex; align-items: center; gap: 12px">
+        <span style="width: 40px; height: 40px; flex: 0 0 40px; border-radius: 999px; background: #e6f4f1; color: #0d6e63; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 13m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"/><path d="M12 10l0 3l2 0"/><path d="M7 4l-2.75 2"/><path d="M17 4l2.75 2"/></svg></span>
+        <div style="flex: 1 1 auto; display: flex; flex-direction: column">
+          <h2 id="r-in" style="margin: 0; font-size: 15px; line-height: 22px; font-weight: 600">Clock-in reminder</h2>
+          <span style="font-size: 12px; line-height: 16px; font-weight: 500; color: #55625e; font-variant-numeric: tabular-nums">{{inSummary}}</span>
+        </div>
+        <button type="button" role="switch" aria-checked="{{inOnAria}}" aria-labelledby="r-in" onClick="{{toggleIn}}" style="{{inTrack}}"><span style="{{inKnob}}"></span></button>
+      </div>
+      <sc-if value="{{inOn}}" hint-placeholder-val="{{true}}">
+        <div style="display: flex; flex-direction: column; gap: 8px; border-top: 1px solid #d3dcd9; padding-top: 14px">
+          <span style="font-size: 13px; line-height: 18px; font-weight: 600">Remind me before my shift starts</span>
+          <div role="radiogroup" aria-label="Clock-in reminder time" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px">
+            <sc-for list="{{inOpts}}" as="o" hint-placeholder-count="4">
+              <button type="button" role="radio" aria-checked="{{o.aria}}" onClick="{{o.pick}}" style="{{o.style}}">{{o.label}}</button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+    </section>
+
+    <section aria-labelledby="r-out" style="background: #ffffff; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 1px 2px rgba(17,24,22,0.06), 0 4px 12px rgba(17,24,22,0.06)">
+      <div style="display: flex; align-items: center; gap: 12px">
+        <span style="width: 40px; height: 40px; flex: 0 0 40px; border-radius: 999px; background: #e6f4f1; color: #0d6e63; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"/><path d="M9 12h12l-3 -3"/><path d="M18 15l3 -3"/></svg></span>
+        <div style="flex: 1 1 auto; display: flex; flex-direction: column">
+          <h2 id="r-out" style="margin: 0; font-size: 15px; line-height: 22px; font-weight: 600">Clock-out reminder</h2>
+          <span style="font-size: 12px; line-height: 16px; font-weight: 500; color: #55625e; font-variant-numeric: tabular-nums">{{outSummary}}</span>
+        </div>
+        <button type="button" role="switch" aria-checked="{{outOnAria}}" aria-labelledby="r-out" onClick="{{toggleOut}}" style="{{outTrack}}"><span style="{{outKnob}}"></span></button>
+      </div>
+      <sc-if value="{{outOn}}" hint-placeholder-val="{{true}}">
+        <div style="display: flex; flex-direction: column; gap: 8px; border-top: 1px solid #d3dcd9; padding-top: 14px">
+          <span style="font-size: 13px; line-height: 18px; font-weight: 600">Remind me</span>
+          <div role="radiogroup" aria-label="Clock-out reminder time" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+            <sc-for list="{{outOpts}}" as="o" hint-placeholder-count="3">
+              <button type="button" role="radio" aria-checked="{{o.aria}}" onClick="{{o.pick}}" style="{{o.style}}">{{o.label}}</button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+    </section>
+
+    <section aria-labelledby="r-miss" style="background: #ffffff; border-radius: 14px; padding: 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 1px 2px rgba(17,24,22,0.06), 0 4px 12px rgba(17,24,22,0.06)">
+      <span style="width: 40px; height: 40px; flex: 0 0 40px; border-radius: 999px; background: #fdf0dc; color: #9a5200; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/><path d="M21 6.727a11.05 11.05 0 0 0 -2.794 -3.727"/><path d="M3 6.727a11.05 11.05 0 0 1 2.792 -3.727"/></svg></span>
+      <div style="flex: 1 1 auto; display: flex; flex-direction: column">
+        <h2 id="r-miss" style="margin: 0; font-size: 15px; line-height: 22px; font-weight: 600">Missed clock-in alert</h2>
+        <span style="font-size: 12px; line-height: 16px; font-weight: 500; color: #55625e">If you haven't clocked in by 08:05, the late limit</span>
+      </div>
+      <button type="button" role="switch" aria-checked="{{missOnAria}}" aria-labelledby="r-miss" onClick="{{toggleMiss}}" style="{{missTrack}}"><span style="{{missKnob}}"></span></button>
+    </section>
+
+    <div style="display: flex; gap: 10px; align-items: flex-start; padding: 0 4px; color: #55625e">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 18px; margin-top: 1px"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 9h.01"/><path d="M11 12h1v4h1"/></svg>
+      <span style="font-size: 12px; line-height: 16px; font-weight: 500">Reminders follow your shift (08:00–17:00, Mon–Fri). You won't get any on weekends, public holidays, or approved leave.</span>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { inOn: true, outOn: true, missOn: true, inMin: 15, outOpt: 'end' };
+  }
+  sw(on) {
+    return {
+      track: 'width: 52px; height: 32px; flex: 0 0 52px; border-radius: 999px; border: 0; padding: 0 4px; cursor: pointer; display: flex; align-items: center; justify-content: ' + (on ? 'flex-end' : 'flex-start') + '; background: ' + (on ? '#0d6e63' : '#7d8b87') + ';',
+      knob: 'width: 24px; height: 24px; border-radius: 999px; background: #ffffff; box-shadow: 0 1px 2px rgba(17,24,22,0.25); display: block;'
+    };
+  }
+  chip(on) {
+    return 'height: 44px; border-radius: 10px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; ' + (on ? 'border: 0; background: #0d6e63; color: #ffffff;' : 'border: 1px solid #d3dcd9; background: #ffffff; color: #111816;');
+  }
+  renderVals() {
+    var self = this, s = this.state;
+    var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+    var inTime = function (m) { var t = 8 * 60 - m; return pad(Math.floor(t / 60)) + ':' + pad(t % 60); };
+    var outMap = { end: ['At 17:00', '17:00'], p15: ['+15 min', '17:15'], p30: ['+30 min', '17:30'] };
+    var a = this.sw(s.inOn), b = this.sw(s.outOn), c = this.sw(s.missOn);
+    return {
+      inOn: s.inOn, outOn: s.outOn,
+      inOnAria: String(s.inOn), outOnAria: String(s.outOn), missOnAria: String(s.missOn),
+      inTrack: a.track, inKnob: a.knob, outTrack: b.track, outKnob: b.knob, missTrack: c.track, missKnob: c.knob,
+      toggleIn: function () { self.setState({ inOn: !self.state.inOn }); },
+      toggleOut: function () { self.setState({ outOn: !self.state.outOn }); },
+      toggleMiss: function () { self.setState({ missOn: !self.state.missOn }); },
+      inSummary: s.inOn ? 'Workdays at ' + inTime(s.inMin) + ' · ' + s.inMin + ' min before shift' : 'Off',
+      outSummary: s.outOn ? 'Workdays at ' + outMap[s.outOpt][1] : 'Off',
+      inOpts: [5, 10, 15, 30].map(function (m) {
+        return { label: m + ' min', aria: String(s.inMin === m), style: self.chip(s.inMin === m), pick: function () { self.setState({ inMin: m }); } };
+      }),
+      outOpts: ['end', 'p15', 'p30'].map(function (k) {
+        return { label: outMap[k][0], aria: String(s.outOpt === k), style: self.chip(s.outOpt === k), pick: function () { self.setState({ outOpt: k }); } };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

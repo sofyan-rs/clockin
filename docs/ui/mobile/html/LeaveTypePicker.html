@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Leave type picker</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+a{color:#0d6e63}a:hover{color:#0a5249}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; background: #f4f7f6; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #111816; position: relative; overflow: hidden">
+  <div aria-hidden="true" style="display: flex; flex-direction: column; gap: 16px; padding: 24px 16px 16px">
+    <div style="display: flex; align-items: center; gap: 16px; height: 48px">
+      <span style="width: 24px; height: 24px"></span>
+      <span style="font-size: 18px; line-height: 24px; font-weight: 600">New request</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+      <div style="height: 56px; border-radius: 14px; border: 2px solid #0d6e63; background: #e6f4f1"></div>
+      <div style="height: 56px; border-radius: 14px; background: #ffffff"></div>
+      <div style="height: 56px; border-radius: 14px; background: #ffffff"></div>
+      <div style="height: 56px; border-radius: 14px; background: #ffffff"></div>
+    </div>
+    <div style="height: 320px; border-radius: 14px; background: #ffffff"></div>
+  </div>
+
+  <div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(17,24,22,0.55)"></div>
+
+  <section role="dialog" aria-modal="true" aria-labelledby="lt-title" style="position: absolute; left: 0; right: 0; bottom: 0; background: #ffffff; border-radius: 24px 24px 0 0; padding: 12px 0 24px; display: flex; flex-direction: column; gap: 8px">
+    <span aria-hidden="true" style="align-self: center; width: 40px; height: 4px; border-radius: 999px; background: #d3dcd9"></span>
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 4px 4px 4px 16px">
+      <h2 id="lt-title" style="margin: 0; font-size: 18px; line-height: 24px; font-weight: 600">Leave type</h2>
+      <a href="NewRequest.html" aria-label="Close" style="width: 48px; height: 48px; border-radius: 999px; display: flex; align-items: center; justify-content: center; color: #111816">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6l-12 12"/><path d="M6 6l12 12"/></svg>
+      </a>
+    </div>
+
+    <div role="radiogroup" aria-labelledby="lt-title" style="display: flex; flex-direction: column; padding: 0 16px">
+      <sc-for list="{{opts}}" as="o" hint-placeholder-count="4">
+        <button type="button" role="radio" aria-checked="{{o.aria}}" onClick="{{o.pick}}" style="{{o.rowStyle}}">
+          <span style="{{o.radioStyle}}"><span style="{{o.dotStyle}}"></span></span>
+          <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; text-align: left">
+            <span style="font-size: 15px; line-height: 22px; font-weight: 600; color: #111816">{{o.title}}</span>
+            <span style="font-size: 12px; line-height: 16px; font-weight: 500; color: #55625e">{{o.desc}}</span>
+          </span>
+          <span style="{{o.balStyle}}">{{o.balance}}</span>
+        </button>
+      </sc-for>
+    </div>
+
+    <div style="padding: 8px 16px 0">
+      <a href="NewRequest.html" style="height: 56px; border-radius: 14px; background: #0d6e63; color: #ffffff; text-decoration: none; display: flex; align-items: center; justify-content: center; font-size: 17px; line-height: 22px; font-weight: 700">Use {{selectedTitle}}</a>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { sel: 'annual' };
+  }
+  renderVals() {
+    var self = this, sel = this.state.sel;
+    var data = [
+      { id: 'annual', title: 'Annual leave', desc: 'Paid days off, taken from your yearly balance', balance: '9 left', tone: 'blue' },
+      { id: 'special', title: 'Special leave', desc: 'Wedding, bereavement, childbirth. Doesn’t use your balance', balance: 'Per event', tone: 'muted' },
+      { id: 'maternity', title: 'Maternity or paternity', desc: 'Based on company policy and labor law', balance: 'Per policy', tone: 'muted' },
+      { id: 'unpaid', title: 'Unpaid leave', desc: 'No balance used. Salary is deducted for these days', balance: '', tone: 'muted' }
+    ];
+    var cur = data.filter(function (d) { return d.id === sel; })[0];
+    return {
+      selectedTitle: cur.title.toLowerCase(),
+      opts: data.map(function (d, i) {
+        var on = d.id === sel;
+        return {
+          title: d.title, desc: d.desc, balance: d.balance, aria: String(on),
+          pick: function () { self.setState({ sel: d.id }); },
+          rowStyle: 'display: flex; align-items: center; gap: 14px; width: 100%; padding: 14px 12px; margin: 0 -12px; width: calc(100% + 24px); border: 0; border-radius: 14px; font-family: inherit; cursor: pointer; background: ' + (on ? '#e6f4f1' : 'transparent') + ';',
+          radioStyle: 'width: 22px; height: 22px; flex: 0 0 22px; border-radius: 999px; display: flex; align-items: center; justify-content: center; border: 2px solid ' + (on ? '#0d6e63' : '#7d8b87') + ';',
+          dotStyle: 'width: 10px; height: 10px; border-radius: 999px; display: block; background: ' + (on ? '#0d6e63' : 'transparent') + ';',
+          balStyle: 'flex: 0 0 auto; font-size: 12px; line-height: 16px; font-weight: 600; color: ' + (d.tone === 'blue' ? '#2858b8' : '#55625e') + ';'
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

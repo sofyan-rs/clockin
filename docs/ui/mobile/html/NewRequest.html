@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>New request</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+a{color:#0d6e63}a:hover{color:#0a5249}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; background: #f4f7f6; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #111816; display: flex; flex-direction: column; overflow: hidden">
+  <header style="display: flex; align-items: center; gap: 4px; padding: 24px 16px 8px 4px; background: #f4f7f6">
+    <a href="Requests.html" aria-label="Back to requests" style="width: 48px; height: 48px; border-radius: 999px; display: flex; align-items: center; justify-content: center; color: #111816">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6l-12 12"/><path d="M6 6l12 12"/></svg>
+    </a>
+    <h1 style="margin: 0; font-size: 18px; line-height: 24px; font-weight: 600">New request</h1>
+  </header>
+
+  <form style="flex: 1 1 auto; min-height: 0; margin: 0; display: flex; flex-direction: column">
+    <div style="flex: 1 1 auto; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; padding: 8px 16px 16px">
+      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 8px">
+        <legend style="padding: 0; margin-bottom: 8px; font-size: 13px; line-height: 18px; font-weight: 600">What are you requesting?</legend>
+        <div role="radiogroup" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+          <sc-for list="{{types}}" as="t" hint-placeholder-count="4">
+            <button type="button" role="radio" aria-checked="{{t.aria}}" onClick="{{t.pick}}" style="{{t.style}}">
+              <sc-if value="{{t.isLeave}}" hint-placeholder-val="{{true}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.553 16.75a7.5 7.5 0 0 0 -10.606 0"/><path d="M18 3.804a6 6 0 0 0 -8.196 2.196l10.392 6a6 6 0 0 0 -2.196 -8.196z"/><path d="M16.732 10c1.658 -2.87 2.225 -5.644 1.268 -6.196c-.957 -.552 -3.075 1.326 -4.732 4.196"/><path d="M15 9l-3 5.196"/><path d="M3 19.25a2.4 2.4 0 0 1 1 -.25a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 1 .25"/></svg></sc-if>
+              <sc-if value="{{t.isSick}}" hint-placeholder-val="{{false}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 8v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2"/><path d="M4 8m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"/><path d="M10 14h4"/><path d="M12 12v4"/></svg></sc-if>
+              <sc-if value="{{t.isOvertime}}" hint-placeholder-val="{{false}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.984 12.535a9 9 0 1 0 -8.468 8.45"/><path d="M16 19h6"/><path d="M19 16v6"/><path d="M12 7v5l3 3"/></svg></sc-if>
+              <sc-if value="{{t.isCorrection}}" hint-placeholder-val="{{false}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"/><path d="M13.5 6.5l4 4"/></svg></sc-if>
+              <span>{{t.label}}</span>
+            </button>
+          </sc-for>
+        </div>
+      </fieldset>
+
+      <section style="background: #ffffff; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 1px 2px rgba(17,24,22,0.06), 0 4px 12px rgba(17,24,22,0.06)">
+        <sc-if value="{{isLeave}}" hint-placeholder-val="{{true}}">
+          <div style="display: flex; flex-direction: column; gap: 16px">
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <span id="nr-lt-label" style="font-size: 13px; line-height: 18px; font-weight: 600">Leave type</span>
+              <a href="LeaveTypePicker.html" role="button" aria-haspopup="dialog" aria-labelledby="nr-lt-label nr-lt-value" style="height: 48px; padding: 0 12px 0 14px; border: 1px solid #d3dcd9; border-radius: 8px; background: #ffffff; color: #111816; text-decoration: none; display: flex; align-items: center; gap: 8px">
+                <span id="nr-lt-value" style="flex: 1 1 auto; font-size: 15px; line-height: 22px">Annual leave</span>
+                <span style="font-size: 13px; line-height: 18px; font-weight: 600; color: #2858b8">9 days left</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#55625e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6"/></svg>
+              </a>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+              <div style="display: flex; flex-direction: column; gap: 6px"><label for="nr-s" style="font-size: 13px; line-height: 18px; font-weight: 600">From</label><input id="nr-s" type="text" value="Mon, 26 Oct" style="height: 48px; padding: 0 12px; border: 1px solid #d3dcd9; border-radius: 8px; font-family: inherit; font-size: 15px; color: #111816"></div>
+              <div style="display: flex; flex-direction: column; gap: 6px"><label for="nr-e" style="font-size: 13px; line-height: 18px; font-weight: 600">To</label><input id="nr-e" type="text" value="Tue, 27 Oct" style="height: 48px; padding: 0 12px; border: 1px solid #d3dcd9; border-radius: 8px; font-family: inherit; font-size: 15px; color: #111816"></div>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center; background: #e5edfc; color: #2858b8; border-radius: 10px; padding: 10px 12px; font-size: 13px; line-height: 18px; font-weight: 600">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"/><path d="M16 3l0 4"/><path d="M8 3l0 4"/><path d="M4 11l16 0"/><path d="M8 15h2v2h-2z"/></svg>
+              2 work days · 7 days left after this
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isSick}}" hint-placeholder-val="{{false}}">
+          <div style="display: flex; flex-direction: column; gap: 16px">
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+              <div style="display: flex; flex-direction: column; gap: 6px"><label for="nr-ss" style="font-size: 13px; line-height: 18px; font-weight: 600">From</label><input id="nr-ss" type="text" value="Thu, 8 Oct" style="height: 48px; padding: 0 12px; border: 1px solid #d3dcd9; border-radius: 8px; font-family: inherit; font-size: 15px; color: #111816"></div>
+              <div style="display: flex; flex-direction: column; gap: 6px"><label for="nr-se" style="font-size: 13px; line-height: 18px; font-weight: 600">To</label><input id="nr-se" type="text" value="Thu, 8 Oct" style="height: 48px; padding: 0 12px; border: 1px solid #d3dcd9; border-radius: 8px; font-family: inherit; font-size: 15px; color: #111816"></div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <span style="font-size: 13px; line-height: 18px; font-weight: 600">Doctor's note <span style="color: #b3261e">(required)</span></span>
+              <button type="button" style="height: 72px; border-radius: 10px; border: 1px dashed #7d8b87; background: #f4f7f6; color: #0d6e63; font-family: inherit; font-size: 15px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2"/><path d="M9 13a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/></svg>Take a photo or upload</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isOvertime}}" hint-placeholder-val="{{false}}">
+          <div style="display: flex; flex-direction: column; gap: 16px">
+            <div style="display: flex; flex-direction: column; gap: 6px"><label for="nr-od" style="font-size: 13px; line-height: 18px; font-weight: 600">Date</label><input id="nr-od" type="text" value="Fri, 9 Oct" style="height: 48px; padding: 0 12px; border: 1px solid #d3dcd9; border-radius: 8px; font-family: inherit; font-size: 15px; color: #111816"></div>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+              <div style="display: flex; flex-direction: column; gap: 6px"><label for="nr-os" style="font-size: 13px; line-height: 18px; font-weight: 600">Start</label><input id="nr-os" type="text" value="17:00" style="height: 48px; padding: 0 12px; border: 1px solid #d3dcd9; border-radius: 8px; font-family: inherit; font-size: 15px; color: #111816; font-variant-numeric: tabular-nums"></div>
+              <div style="display: flex; flex-direction: column; gap: 6px"><label for="nr-oe" style="font-size: 13px; line-height: 18px; font-weight: 600">End</label><input id="nr-oe" type="text" value="19:30" style="height: 48px; padding: 0 12px; border: 1px solid #d3dcd9; border-radius: 8px; font-family: inherit; font-size: 15px; color: #111816; font-variant-numeric: tabular-nums"></div>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center; background: #e6f4f1; color: #0a5249; border-radius: 10px; padding: 10px 12px; font-size: 13px; line-height: 18px; font-weight: 600">2h 30m overtime · counts only after approval</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isCorrection}}" hint-placeholder-val="{{false}}">
+          <div style="display: flex; flex-direction: column; gap: 16px">
+            <div style="display: flex; flex-direction: column; gap: 6px"><label for="nr-cd" style="font-size: 13px; line-height: 18px; font-weight: 600">Date</label><input id="nr-cd" type="text" value="Tue, 6 Oct" style="height: 48px; padding: 0 12px; border: 1px solid #d3dcd9; border-radius: 8px; font-family: inherit; font-size: 15px; color: #111816"></div>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+              <div style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; line-height: 18px; font-weight: 600">Recorded</span><span style="height: 48px; padding: 0 12px; border-radius: 8px; background: #e8edeb; color: #55625e; font-size: 15px; display: flex; align-items: center; font-variant-numeric: tabular-nums">In 08:12</span></div>
+              <div style="display: flex; flex-direction: column; gap: 6px"><label for="nr-ct" style="font-size: 13px; line-height: 18px; font-weight: 600">Correct time</label><input id="nr-ct" type="text" value="07:58" style="height: 48px; padding: 0 12px; border: 1px solid #d3dcd9; border-radius: 8px; font-family: inherit; font-size: 15px; color: #111816; font-variant-numeric: tabular-nums"></div>
+            </div>
+            <span style="font-size: 12px; line-height: 16px; color: #55625e">Corrections can be sent up to 3 work days after the date.</span>
+          </div>
+        </sc-if>
+
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <label for="nr-r" style="font-size: 13px; line-height: 18px; font-weight: 600">Reason</label>
+          <textarea id="nr-r" rows="3" placeholder="{{reasonHint}}" style="border: 1px solid #d3dcd9; border-radius: 8px; padding: 12px 14px; font-family: inherit; font-size: 15px; line-height: 22px; color: #111816; resize: none"></textarea>
+        </div>
+      </section>
+
+      <section aria-labelledby="nr-flow" style="background: #ffffff; border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 1px 2px rgba(17,24,22,0.06), 0 4px 12px rgba(17,24,22,0.06)">
+        <div style="display: flex; justify-content: space-between; align-items: baseline">
+          <h2 id="nr-flow" style="margin: 0; font-size: 13px; line-height: 18px; font-weight: 600">Approval flow</h2>
+          <span style="font-size: 12px; line-height: 16px; font-weight: 500; color: #55625e">{{flowCount}}</span>
+        </div>
+        <ul style="{{flowGrid}}">
+          <sc-for list="{{approvers}}" as="a" hint-placeholder-count="3">
+            <li style="min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
+              <span aria-hidden="true" style="width: 36px; height: 36px; border-radius: 999px; background: #e6f4f1; color: #0a5249; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center">{{a.ini}}</span>
+              <span style="font-size: 12px; line-height: 16px; font-weight: 600">{{a.name}}</span>
+              <span style="font-size: 11px; line-height: 14px; color: #55625e">{{a.role}}</span>
+            </li>
+          </sc-for>
+        </ul>
+        <span style="font-size: 12px; line-height: 16px; font-weight: 500; color: #55625e">{{flowNote}}</span>
+      </section>
+    </div>
+
+    <div style="flex: 0 0 auto; padding: 12px 16px 24px; background: #ffffff; box-shadow: 0 -1px 0 #d3dcd9">
+      <a href="RequestDetail.html" style="height: 56px; border-radius: 14px; background: #0d6e63; color: #ffffff; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 17px; line-height: 22px; font-weight: 700">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14l11 -11"/><path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5"/></svg>
+        Send request
+      </a>
+    </div>
+  </form>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { type: 'leave' };
+  }
+  renderVals() {
+    var self = this, cur = this.state.type;
+    var defs = [['leave', 'Leave'], ['sick', 'Sick'], ['overtime', 'Overtime'], ['correction', 'Correction']];
+    var hints = {
+      leave: 'e.g. Family trip to Bandung',
+      sick: 'e.g. Fever, resting at home',
+      overtime: 'e.g. Month-end closing',
+      correction: 'e.g. I clocked in on time but the app froze'
+    };
+    var P = {
+      tl: { ini: 'GR', name: 'Gita R.', role: 'Team Lead' },
+      mgr: { ini: 'BS', name: 'Budi S.', role: 'Manager' },
+      hr: { ini: 'DA', name: 'Dewi A.', role: 'HR' }
+    };
+    var flows = {
+      leave: { people: ['tl', 'mgr', 'hr'], note: 'All 3 need to approve, whoever responds first. Set by HR for leave requests in Finance.' },
+      sick: { people: ['tl', 'hr'], note: 'Both need to approve, in any order. Your doctor\u2019s note is shared with them only.' },
+      overtime: { people: ['tl', 'mgr'], note: 'Both need to approve before the hours count toward overtime pay.' },
+      correction: { people: ['tl', 'hr'], note: 'Both need to approve. HR updates your attendance once it\u2019s approved.' }
+    };
+    var flow = flows[cur];
+    return {
+      isLeave: cur === 'leave', isSick: cur === 'sick', isOvertime: cur === 'overtime', isCorrection: cur === 'correction',
+      reasonHint: hints[cur],
+      approvers: flow.people.map(function (k) { return P[k]; }),
+      flowCount: flow.people.length === 1 ? '1 approver' : flow.people.length + ' approvers \u00b7 any order',
+      flowGrid: 'margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; grid-template-columns: repeat(' + Math.max(flow.people.length, 2) + ', minmax(0, 1fr));',
+      flowNote: flow.note,
+      types: defs.map(function (d) {
+        var on = cur === d[0];
+        return {
+          label: d[1], aria: String(on),
+          isLeave: d[0] === 'leave', isSick: d[0] === 'sick', isOvertime: d[0] === 'overtime', isCorrection: d[0] === 'correction',
+          pick: function () { self.setState({ type: d[0] }); },
+          style: 'height: 56px; border-radius: 14px; font-family: inherit; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px; padding: 0 14px; cursor: pointer; ' + (on ? 'border: 2px solid #0d6e63; background: #e6f4f1; color: #0a5249;' : 'border: 1px solid #d3dcd9; background: #ffffff; color: #111816;')
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>
