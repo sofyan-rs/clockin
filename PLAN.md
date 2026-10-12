@@ -49,18 +49,18 @@ Read first: [`docs/implementation/PRD.md`](docs/implementation/PRD.md) (what), [
 
 ### B1 · Core platform and auth
 
-- [ ] NestJS app: config (zod), pino logging with request ID, global ValidationPipe, problem+json exception filter with error `code`s, Helmet, health/ready endpoints
-- [ ] Prisma setup, first migration: `companies`, `users`, `employees` (minimal), `admin_users`, `sessions`, `password_resets`, `invitations`, `devices`, `device_change_requests`, `consent_versions`, `consent_acceptances`, `audit_logs`, `idempotency_keys`
-- [ ] Tenancy: `TenantContext` (AsyncLocalStorage) + Prisma extension injecting `companyId`; unit test that a tenant model query without context throws
-- [ ] Seed script: demo company (Sasana), Super Admin, HR Admin, a few employees, default consent text
-- [ ] Auth: argon2id, mobile sign-in (email or Employee ID) with device binding / `DEVICE_NOT_RECOGNIZED` + device change request, admin sign-in, refresh rotation with family reuse detection, sign-out, forgot/reset password (60 min single-use), change password (revokes other sessions), invitation accept via reset flow
-- [ ] Guards: `MobileAuthGuard`, `AdminAuthGuard`, `PermissionGuard` + `@Permission()`, `ScopeService`
-- [ ] Rate limiting (Redis): sign-in per account/IP, forgot-password
-- [ ] `AuditService` + interceptor helpers
-- [ ] Mail module (Nodemailer + MJML or simple templates): invite, reset password; Mailpit in dev
-- [ ] `GET /v1/app/config`, `GET /v1/me`, `POST /v1/me/consent`, `GET /v1/admin/me`
-- [ ] OpenAPI emit script → `packages/api-schema/openapi.json`; generate TS client; CI freshness check
-- [ ] e2e test harness with Testcontainers
+- [x] NestJS app: config (zod), pino logging with request ID, global ValidationPipe, problem+json exception filter with error `code`s, Helmet, health/ready endpoints
+- [x] Prisma setup, first migration: `companies`, `users`, `employees` (minimal), `admin_users`, `sessions`, `password_resets`, `invitations`, `devices`, `device_change_requests`, `consent_versions`, `consent_acceptances`, `audit_logs`, `idempotency_keys`
+- [x] Tenancy: `TenantContext` (AsyncLocalStorage) + Prisma extension injecting `companyId`; unit test that a tenant model query without context throws
+- [x] Seed script: demo company (Sasana), Super Admin, HR Admin, a few employees, default consent text
+- [x] Auth: argon2id, mobile sign-in (email or Employee ID) with device binding / `DEVICE_NOT_RECOGNIZED` + device change request, admin sign-in, refresh rotation with family reuse detection, sign-out, forgot/reset password (60 min single-use), change password (revokes other sessions), invitation accept via reset flow
+- [x] Guards: `MobileAuthGuard`, `AdminAuthGuard`, `PermissionGuard` + `@RequirePermission()`, `ScopeService`
+- [x] Rate limiting (Redis): sign-in per IP + per-account lockout in DB, forgot-password
+- [x] `AuditService` (explicit `record(tx, …)` in the same transaction; no interceptor, per CODE_STRUCTURE rule 4)
+- [x] Mail module (Nodemailer + MJML or simple templates): invite, reset password; Mailpit in dev
+- [x] `GET /v1/app/config`, `GET /v1/me`, `POST /v1/me/consent`, `GET /v1/admin/me`
+- [x] OpenAPI emit script → `packages/api-schema/openapi.json`; generate TS client; CI freshness check
+- [x] e2e test harness with Testcontainers
 
 **Done when:** e2e tests cover sign-in (both audiences), wrong password, lockout, device binding on first sign-in, unknown device → 409 + request created, refresh rotation and reuse revocation, reset password, change password; OpenAPI published.
 

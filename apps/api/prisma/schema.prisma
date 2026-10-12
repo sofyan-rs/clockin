@@ -1,0 +1,383 @@
+// ARCHITECTURE §5. Every table except companies carries company_id; the tenancy extension
+// (src/common/prisma/tenancy.extension.ts) injects it into queries.
+
+generator client {
+  provider        = "prisma-client-js"
+  binaryTargets   = ["native", "debian-openssl-3.0.x"]
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [citext]
+}
+
+model Company {
+  id              String   @id @default(uuid(7)) @db.Uuid
+  slug            String   @unique
+  name            String
+  appName         String   @map("app_name")
+  logoKey         String?  @map("logo_key")
+  defaultTz       String   @default("Asia/Jakarta") @map("default_tz")
+  locale          String   @default("en")
+  weekStart       Int      @default(1) @map("week_start") @db.SmallInt
+  dateFormat      String   @default("D MMM YYYY") @map("date_format")
+  contactWhatsapp String?  @map("contact_whatsapp")
+  contactPhone    String?  @map("contact_phone")
+  contactEmail    String?  @map("contact_email")
+  /// Typed by CompanySettings (zod) in modules/companies/company-settings.ts
+  settings        Json     @default("{}")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  users                User[]
+  employees            Employee[]
+  adminUsers           AdminUser[]
+  sessions             Session[]
+  passwordResets       PasswordReset[]
+  invitations          Invitation[]
+  devices              Device[]
+  deviceChangeRequests DeviceChangeRequest[]
+  consentVersions      ConsentVersion[]
+  consentAcceptances   ConsentAcceptance[]
+  auditLogs            AuditLog[]
+  idempotencyKeys      IdempotencyKey[]
+
+  @@map("companies")
+}
+
+enum UserStatus {
+  INVITED
+  ACTIVE
+  LOCKED
+
+  @@map("user_status")
+}
+
+model User {
+  id                String     @id @default(uuid(7)) @db.Uuid
+  companyId         String     @map("company_id") @db.Uuid
+  email             String     @db.Citext
+  passwordHash      String?    @map("password_hash")
+  passwordChangedAt DateTime?  @map("password_changed_at") @db.Timestamptz(3)
+  status            UserStatus @default(INVITED)
+  failedAttempts    Int        @default(0) @map("failed_attempts")
+  firstFailedAt     DateTime?  @map("first_failed_at") @db.Timestamptz(3)
+  lockedUntil       DateTime?  @map("locked_until") @db.Timestamptz(3)
+  createdAt         DateTime   @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt         DateTime   @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  company        Company         @relation(fields: [companyId], references: [id])
+  employee       Employee?
+  adminUser      AdminUser?
+  sessions       Session[]
+  passwordResets PasswordReset[]
+  invitations    Invitation[]
+
+  @@unique([companyId, email])
+  @@index([email])
+  @@map("users")
+}
+
+enum EmployeeStatus {
+  ACTIVE
+  DEACTIVATED
+
+  @@map("employee_status")
+}
+
+/// Minimal in B1; departments, positions, locations and schedules (with FKs) arrive in B2.
+model Employee {
+  id                     String         @id @default(uuid(7)) @db.Uuid
+  companyId              String         @map("company_id") @db.Uuid
+  userId                 String         @unique @map("user_id") @db.Uuid
+  employeeCode           String         @map("employee_code")
+  fullName               String         @map("full_name")
+  phone                  String?
+  departmentId           String?        @map("department_id") @db.Uuid
+  teamLeadId             String?        @map("team_lead_id") @db.Uuid
+  managerId              String?        @map("manager_id") @db.Uuid
+  allowWfo               Boolean        @default(true) @map("allow_wfo")
+  allowWfh               Boolean        @default(false) @map("allow_wfh")
+  joinDate               DateTime       @map("join_date") @db.Date
+  annualLeaveEntitlement Int            @default(12) @map("annual_leave_entitlement") @db.SmallInt
+  status                 EmployeeStatus @default(ACTIVE)
+  lastWorkingDay         DateTime?      @map("last_working_day") @db.Date
+  deactivationReason     String?        @map("deactivation_reason")
+  createdAt              DateTime       @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt              DateTime       @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  company              Company               @relation(fields: [companyId], references: [id])
+  user                 User                  @relation(fields: [userId], references: [id])
+  teamLead             Employee?             @relation("TeamLead", fields: [teamLeadId], references: [id])
+  teamMembers          Employee[]            @relation("TeamLead")
+  manager              Employee?             @relation("Manager", fields: [managerId], references: [id])
+  managedEmployees     Employee[]            @relation("Manager")
+  adminUser            AdminUser?
+  devices              Device[]
+  deviceChangeRequests DeviceChangeRequest[]
+  consentAcceptances   ConsentAcceptance[]
+  idempotencyKeys      IdempotencyKey[]
+
+  @@unique([companyId, employeeCode])
+  @@index([companyId, status, departmentId])
+  @@index([employeeCode])
+  @@map("employees")
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  HR_ADMIN
+  HR
+  MANAGER
+  TEAM_LEAD
+
+  @@map("admin_role")
+}
+
+enum AdminScopeKind {
+  TEAM
+  DEPARTMENTS
+  ALL
+
+  @@map("admin_scope_kind")
+}
+
+enum AdminUserStatus {
+  ACTIVE
+  REMOVED
+
+  @@map("admin_user_status")
+}
+
+/// CHECK constraint (migration SQL): MANAGER and TEAM_LEAD require employee_id.
+model AdminUser {
+  id                 String          @id @default(uuid(7)) @db.Uuid
+  companyId          String          @map("company_id") @db.Uuid
+  userId             String          @unique @map("user_id") @db.Uuid
+  employeeId         String?         @unique @map("employee_id") @db.Uuid
+  displayName        String          @map("display_name")
+  role               AdminRole
+  scopeKind          AdminScopeKind  @map("scope_kind")
+  scopeDepartmentIds String[]        @default([]) @map("scope_department_ids") @db.Uuid
+  status             AdminUserStatus @default(ACTIVE)
+  createdAt          DateTime        @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt          DateTime        @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  company  Company   @relation(fields: [companyId], references: [id])
+  user     User      @relation(fields: [userId], references: [id])
+  employee Employee? @relation(fields: [employeeId], references: [id])
+
+  @@index([companyId, status])
+  @@map("admin_users")
+}
+
+enum SessionAudience {
+  MOBILE
+  ADMIN
+
+  @@map("session_audience")
+}
+
+enum SessionRevokeReason {
+  ROTATED
+  SIGN_OUT
+  REFRESH_REUSE
+  PASSWORD_CHANGE
+  PASSWORD_RESET
+  DEVICE_CHANGE
+  ACCESS_REMOVED
+  DEACTIVATED
+  INACTIVE
+
+  @@map("session_revoke_reason")
+}
+
+/// One row per refresh token. Rotation revokes the row (ROTATED) and inserts a new one in the same
+/// family; presenting a revoked token revokes the whole family (reuse detection, ARCHITECTURE §12).
+/// Access tokens carry the family id as `sid`.
+model Session {
+  id            String               @id @default(uuid(7)) @db.Uuid
+  companyId     String               @map("company_id") @db.Uuid
+  userId        String               @map("user_id") @db.Uuid
+  audience      SessionAudience
+  deviceId      String?              @map("device_id") @db.Uuid
+  refreshHash   String               @unique @map("refresh_hash")
+  familyId      String               @map("family_id") @db.Uuid
+  expiresAt     DateTime             @map("expires_at") @db.Timestamptz(3)
+  revokedAt     DateTime?            @map("revoked_at") @db.Timestamptz(3)
+  revokedReason SessionRevokeReason? @map("revoked_reason")
+  lastUsedAt    DateTime             @default(now()) @map("last_used_at") @db.Timestamptz(3)
+  ip            String?
+  userAgent     String?              @map("user_agent")
+  createdAt     DateTime             @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  company Company @relation(fields: [companyId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+  device  Device? @relation(fields: [deviceId], references: [id])
+
+  @@index([familyId])
+  @@index([userId, revokedAt])
+  @@map("sessions")
+}
+
+model PasswordReset {
+  id        String    @id @default(uuid(7)) @db.Uuid
+  companyId String    @map("company_id") @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  tokenHash String    @unique @map("token_hash")
+  expiresAt DateTime  @map("expires_at") @db.Timestamptz(3)
+  usedAt    DateTime? @map("used_at") @db.Timestamptz(3)
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  company Company @relation(fields: [companyId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@map("password_resets")
+}
+
+model Invitation {
+  id         String    @id @default(uuid(7)) @db.Uuid
+  companyId  String    @map("company_id") @db.Uuid
+  userId     String    @map("user_id") @db.Uuid
+  channel    String    @default("email")
+  tokenHash  String    @unique @map("token_hash")
+  expiresAt  DateTime  @map("expires_at") @db.Timestamptz(3)
+  acceptedAt DateTime? @map("accepted_at") @db.Timestamptz(3)
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  company Company @relation(fields: [companyId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@map("invitations")
+}
+
+enum DevicePlatform {
+  ANDROID
+  IOS
+
+  @@map("device_platform")
+}
+
+/// Partial unique index (migration SQL): one active device (revoked_at IS NULL) per employee.
+model Device {
+  id           String         @id @default(uuid(7)) @db.Uuid
+  companyId    String         @map("company_id") @db.Uuid
+  employeeId   String         @map("employee_id") @db.Uuid
+  deviceIdHash String         @map("device_id_hash")
+  platform     DevicePlatform
+  model        String?
+  osVersion    String?        @map("os_version")
+  appVersion   String?        @map("app_version")
+  pushToken    String?        @map("push_token")
+  boundAt      DateTime       @default(now()) @map("bound_at") @db.Timestamptz(3)
+  revokedAt    DateTime?      @map("revoked_at") @db.Timestamptz(3)
+
+  company  Company   @relation(fields: [companyId], references: [id])
+  employee Employee  @relation(fields: [employeeId], references: [id])
+  sessions Session[]
+
+  @@index([employeeId])
+  @@map("devices")
+}
+
+enum DeviceChangeStatus {
+  PENDING
+  APPROVED
+  DECLINED
+
+  @@map("device_change_status")
+}
+
+model DeviceChangeRequest {
+  id           String             @id @default(uuid(7)) @db.Uuid
+  companyId    String             @map("company_id") @db.Uuid
+  employeeId   String             @map("employee_id") @db.Uuid
+  deviceIdHash String             @map("device_id_hash")
+  platform     DevicePlatform
+  model        String?
+  osVersion    String?            @map("os_version")
+  appVersion   String?            @map("app_version")
+  status       DeviceChangeStatus @default(PENDING)
+  decidedBy    String?            @map("decided_by") @db.Uuid
+  decidedAt    DateTime?          @map("decided_at") @db.Timestamptz(3)
+  createdAt    DateTime           @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  company  Company  @relation(fields: [companyId], references: [id])
+  employee Employee @relation(fields: [employeeId], references: [id])
+
+  @@index([companyId, status])
+  @@index([employeeId])
+  @@map("device_change_requests")
+}
+
+model ConsentVersion {
+  id        String   @id @default(uuid(7)) @db.Uuid
+  companyId String   @map("company_id") @db.Uuid
+  version   Int
+  body      String
+  createdBy String?  @map("created_by") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  company     Company             @relation(fields: [companyId], references: [id])
+  acceptances ConsentAcceptance[]
+
+  @@unique([companyId, version])
+  @@map("consent_versions")
+}
+
+model ConsentAcceptance {
+  id               String   @id @default(uuid(7)) @db.Uuid
+  companyId        String   @map("company_id") @db.Uuid
+  employeeId       String   @map("employee_id") @db.Uuid
+  consentVersionId String   @map("consent_version_id") @db.Uuid
+  deviceId         String?  @map("device_id") @db.Uuid
+  acceptedAt       DateTime @default(now()) @map("accepted_at") @db.Timestamptz(3)
+
+  company        Company        @relation(fields: [companyId], references: [id])
+  employee       Employee       @relation(fields: [employeeId], references: [id])
+  consentVersion ConsentVersion @relation(fields: [consentVersionId], references: [id])
+
+  @@unique([employeeId, consentVersionId])
+  @@map("consent_acceptances")
+}
+
+model AuditLog {
+  id          String   @id @default(uuid(7)) @db.Uuid
+  companyId   String   @map("company_id") @db.Uuid
+  actorUserId String?  @map("actor_user_id") @db.Uuid
+  actorLabel  String   @map("actor_label")
+  action      String
+  entityType  String   @map("entity_type")
+  entityId    String?  @map("entity_id")
+  before      Json?
+  after       Json?
+  note        String?
+  ip          String?
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  company Company @relation(fields: [companyId], references: [id])
+
+  @@index([companyId, createdAt(sort: Desc)])
+  @@index([companyId, actorUserId, createdAt(sort: Desc)])
+  @@map("audit_logs")
+}
+
+model IdempotencyKey {
+  id         String   @id @default(uuid(7)) @db.Uuid
+  companyId  String   @map("company_id") @db.Uuid
+  employeeId String   @map("employee_id") @db.Uuid
+  key        String
+  response   Json
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  company  Company  @relation(fields: [companyId], references: [id])
+  employee Employee @relation(fields: [employeeId], references: [id])
+
+  @@unique([employeeId, key])
+  @@index([createdAt])
+  @@map("idempotency_keys")
+}

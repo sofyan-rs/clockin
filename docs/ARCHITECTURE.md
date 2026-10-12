@@ -134,13 +134,13 @@ Each module: `*.controller.ts` (thin), `*.service.ts` (business logic), `dto/` (
 
 | Piece | Implementation |
 |---|---|
-| Tenancy | `TenantContext` (AsyncLocalStorage) set from the token's `cid` claim. Prisma client extension injects `companyId` into every `where`/`data` for tenant models; raw SQL must pass it explicitly |
+| Tenancy | `TenantContext` (AsyncLocalStorage) set from the token's `cid` claim. Prisma client extension injects `companyId` into every `where`/`data` for tenant models; raw SQL must pass it explicitly. `PrismaService.tenant` is the scoped client (throws without a tenant); `PrismaService.system` is unscoped, only for lookups before the company is known (sign-in, refresh, reset tokens, public config) and jobs. Public endpoints resolve the company from the `x-company` slug header (optional while there is one company) |
 | AuthN guards | `MobileAuthGuard` (aud=`mobile`, active employee, bound device header matches) and `AdminAuthGuard` (aud=`admin`, active admin user) |
-| AuthZ | `@Roles(...)` + `@Permission('employees.write')` decorators checked by `PermissionGuard`; scope filtering via `ScopeService.employeeWhere(admin)` used by every admin list/report query |
+| AuthZ | `@RequirePermission('employees.write')` checked by `PermissionGuard` (roles map to permission sets in `common/auth/permissions.ts`); scope filtering via `ScopeService.employeeWhere(admin)` used by every admin list/report query |
 | Validation | Global `ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true })` |
-| Errors | RFC 7807 `application/problem+json` with stable `code` (e.g. `OUTSIDE_GEOFENCE`, `DEVICE_NOT_RECOGNIZED`, `ALREADY_CLOCKED_IN`). Clients map `code` to i18n strings |
+| Errors | RFC 7807 `application/problem+json` with stable `code` (e.g. `OUTSIDE_GEOFENCE`, `DEVICE_NOT_RECOGNIZED`, `ALREADY_CLOCKED_IN`). Clients map `code` to i18n strings. Codes live in `common/errors/error-codes.ts`; the OpenAPI spec exposes them as the `ErrorCode` enum on the default response of every operation |
 | Idempotency | `Idempotency-Key` header required on clock-in/out and sync; stored per employee for 7 days |
-| Rate limiting | `@nestjs/throttler` with Redis storage: sign-in 5/15 min per account + 20/min per IP; forgot-password 3/h per account |
+| Rate limiting | `RateLimitService` (Redis fixed window): sign-in 20/min per IP, forgot-password 3/h per account. The per-account sign-in limit (5 failures / 15 min → 15 min lock) is stored on `users` (`failed_attempts`, `first_failed_at`, `locked_until`) and returns `ACCOUNT_LOCKED` |
 | Audit | `AuditService.record(actor, action, entity, before, after, note)` called inside the same transaction as the change |
 | Logging | pino JSON logs with request ID (`x-request-id`), no PII in logs (mask email, no coordinates) |
 | OpenAPI | `@nestjs/swagger` → `bun run --filter api openapi:emit` writes `packages/api-schema/openapi.json`; CI fails if it is stale |
@@ -169,12 +169,12 @@ Postgres, all ids `uuid` (v7), all timestamps `timestamptz`, soft data kept via 
 
 | Table | Key columns | Notes |
 |---|---|---|
-| `companies` | name, app_name, logo_key, default_tz, locale, week_start, date_format, contact_whatsapp, contact_phone, contact_email, settings `jsonb` | `settings` holds clock-in rules, privacy, mobile app rules (typed with zod) |
+| `companies` | slug (unique), name, app_name, logo_key, default_tz, locale, week_start, date_format, contact_whatsapp, contact_phone, contact_email, settings `jsonb` | `settings` holds clock-in rules, privacy, mobile app rules (typed with zod) |
 | `consent_versions` | version, body, created_by, created_at | Latest = current |
 | `consent_acceptances` | employee_id, consent_version_id, accepted_at, device_id | |
-| `users` | email (citext, unique per company), password_hash (argon2id), password_changed_at, status (`invited`/`active`/`locked`), failed_attempts, locked_until | One credential per person; links employee and/or admin |
+| `users` | email (citext, unique per company), password_hash (argon2id), password_changed_at, status (`invited`/`active`/`locked`), failed_attempts, first_failed_at, locked_until | One credential per person; links employee and/or admin |
 | `employees` | user_id, employee_code (unique per company), full_name, phone, department_id, position_id, team_lead_id, manager_id, location_id, schedule_id, allow_wfo, allow_wfh, join_date, annual_leave_entitlement, status (`active`/`deactivated`), last_working_day, deactivation_reason | `team_lead_id`/`manager_id` default from department, overridable |
-| `admin_users` | user_id, employee_id (nullable), role, scope_kind, scope_department_ids `uuid[]`, status | Team Lead/Manager require employee_id (check constraint) |
+| `admin_users` | user_id, employee_id (nullable), display_name, role, scope_kind, scope_department_ids `uuid[]`, status | Team Lead/Manager require employee_id (check constraint) |
 | `departments` | name, code, manager_id, is_default | |
 | `department_team_leads` | department_id, employee_id | |
 | `positions` | department_id, name | |
@@ -182,7 +182,7 @@ Postgres, all ids `uuid` (v7), all timestamps `timestamptz`, soft data kept via 
 | `schedules` | name, pattern (`weekly`/`biweekly`/`custom`), week1_days `smallint[]` (1=Mon…7=Sun), week2_days, anchor_date, start_time, end_time, late_tolerance_min, early_leave_min, break_min, absent_cutoff (time), skip_holidays, is_default | One default per company (partial unique index) |
 | `devices` | employee_id, device_id_hash, platform, model, os_version, app_version, push_token, bound_at, revoked_at | One active (revoked_at null) per employee (partial unique index) |
 | `device_change_requests` | employee_id, device_id_hash, platform, model, status (`pending`/`approved`/`declined`), decided_by, decided_at | |
-| `sessions` | user_id, audience (`mobile`/`admin`), device_id, refresh_hash, family_id, expires_at, revoked_at, last_used_at, ip, user_agent | Rotation + reuse detection by family |
+| `sessions` | user_id, audience (`mobile`/`admin`), device_id, refresh_hash, family_id, expires_at, revoked_at, revoked_reason, last_used_at, ip, user_agent | One row per refresh token. Rotation revokes the row (`ROTATED`) and inserts the next one in the same family; presenting a rotated token revokes the family. Access JWT `sid` = family id, checked on every request |
 | `password_resets` | user_id, token_hash, expires_at, used_at | |
 | `invitations` | user_id, channel, token_hash, expires_at, accepted_at | Set-password link for new employees/admins |
 | `attendance_events` | employee_id, kind (`in`/`out`), mode (`wfo`/`wfh`), server_time, device_time, captured_offline, clock_drift_s, lat, lng, accuracy_m, distance_m, location_id, is_mock, selfie_key, face_detected, device_id, app_version, flags `text[]`, review_status (`none`/`pending`/`accepted`/`invalid`), reviewed_by, reviewed_at, review_note, idempotency_key, attendance_date | Immutable facts except review columns. Unique (employee_id, attendance_date, kind) where review_status ≠ `invalid` |
