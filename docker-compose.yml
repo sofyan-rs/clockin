@@ -21,16 +21,19 @@ services:
     ports: ['9000:9000', '9001:9001']
     volumes: [s3-data:/data]
   s3-init:
-    image: amazon/aws-cli:2.37.12
+    image: peakcom/s5cmd:v2.3.0
     depends_on: [rustfs]
     environment:
       AWS_ACCESS_KEY_ID: clockin
       AWS_SECRET_ACCESS_KEY: clockin-secret
-      AWS_DEFAULT_REGION: us-east-1
+      AWS_REGION: us-east-1
     # Bucket stays private (no policy): the API hands out presigned URLs only.
-    entrypoint: >
-      sh -c "until aws --endpoint-url http://rustfs:9000 s3api head-bucket --bucket clockin 2>/dev/null
-             || aws --endpoint-url http://rustfs:9000 s3 mb s3://clockin; do sleep 1; done"
+    entrypoint: ['sh', '-c']
+    command:
+      - |
+        until /s5cmd --endpoint-url http://rustfs:9000 ls >/dev/null 2>&1; do sleep 1; done
+        /s5cmd --endpoint-url http://rustfs:9000 ls s3://clockin >/dev/null 2>&1 \
+          || /s5cmd --endpoint-url http://rustfs:9000 mb s3://clockin
   mailpit:
     image: axllent/mailpit:v1.24
     ports: ['1025:1025', '8025:8025']
