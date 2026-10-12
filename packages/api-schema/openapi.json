@@ -1,5 +1,1049 @@
 {
-  "openapi": "3.1.0",
-  "info": { "title": "ClockIn API", "version": "0.0.0" },
-  "paths": {}
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/app/config": {
+      "get": {
+        "operationId": "AppConfig_config",
+        "parameters": [
+          {
+            "name": "x-company",
+            "required": false,
+            "in": "header",
+            "description": "Company slug; optional while there is one company",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppConfigResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error (see `code`)",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/auth/mobile/sign-in": {
+      "post": {
+        "operationId": "Auth_signInMobile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MobileSignInRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MobileSignInResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error (see `code`)",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/auth/admin/sign-in": {
+      "post": {
+        "operationId": "Auth_signInAdmin",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminSignInRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenPairResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error (see `code`)",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/auth/refresh": {
+      "post": {
+        "operationId": "Auth_refresh",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenPairResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error (see `code`)",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/auth/sign-out": {
+      "post": {
+        "operationId": "Auth_signOut",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "default": {
+            "description": "Error (see `code`)",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/auth/forgot-password": {
+      "post": {
+        "operationId": "Auth_forgotPassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Always 204, whether or not the email exists"
+          },
+          "default": {
+            "description": "Error (see `code`)",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/auth/reset-password": {
+      "post": {
+        "operationId": "Auth_resetPassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Also accepts invitation tokens"
+          },
+          "default": {
+            "description": "Error (see `code`)",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/auth/change-password": {
+      "post": {
+        "operationId": "Auth_changePassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "default": {
+            "description": "Error (see `code`)",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/me": {
+      "get": {
+        "operationId": "Me_profile",
+        "parameters": [
+          {
+            "name": "x-device-id",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error (see `code`)",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "me"
+        ]
+      }
+    },
+    "/v1/me/consent": {
+      "post": {
+        "operationId": "Me_acceptConsent",
+        "parameters": [
+          {
+            "name": "x-device-id",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcceptConsentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "default": {
+            "description": "Error (see `code`)",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "me"
+        ]
+      }
+    },
+    "/v1/admin/me": {
+      "get": {
+        "operationId": "AdminMe_me",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminMeResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error (see `code`)",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "ClockIn API",
+    "description": "Errors are application/problem+json with a stable `code` (see ProblemDetails).",
+    "version": "1",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "AppFeatures": {
+        "type": "object",
+        "properties": {
+          "requests": {
+            "type": "boolean"
+          },
+          "notifications": {
+            "type": "boolean"
+          },
+          "holidays": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "requests",
+          "notifications",
+          "holidays"
+        ]
+      },
+      "AppCompany": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "appName": {
+            "type": "string"
+          },
+          "logoUrl": {
+            "type": "string",
+            "nullable": true,
+            "description": "Presigned logo URL (B2)"
+          },
+          "defaultTz": {
+            "type": "string",
+            "example": "Asia/Jakarta"
+          }
+        },
+        "required": [
+          "name",
+          "appName",
+          "logoUrl",
+          "defaultTz"
+        ]
+      },
+      "ContactHr": {
+        "type": "object",
+        "properties": {
+          "whatsapp": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "whatsapp",
+          "phone",
+          "email"
+        ]
+      },
+      "AppConfigResponse": {
+        "type": "object",
+        "properties": {
+          "minAppVersion": {
+            "type": "string",
+            "example": "1.0.0",
+            "description": "FR-M5: older apps show Update required"
+          },
+          "biometricUnlock": {
+            "type": "boolean"
+          },
+          "features": {
+            "$ref": "#/components/schemas/AppFeatures"
+          },
+          "company": {
+            "$ref": "#/components/schemas/AppCompany"
+          },
+          "contactHr": {
+            "$ref": "#/components/schemas/ContactHr"
+          },
+          "serverTime": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "minAppVersion",
+          "biometricUnlock",
+          "features",
+          "company",
+          "contactHr",
+          "serverTime"
+        ]
+      },
+      "DevicePlatform": {
+        "type": "string",
+        "enum": [
+          "ANDROID",
+          "IOS"
+        ]
+      },
+      "DeviceInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Install id generated by the app (UUID)"
+          },
+          "platform": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DevicePlatform"
+              }
+            ]
+          },
+          "model": {
+            "type": "string"
+          },
+          "osVersion": {
+            "type": "string"
+          },
+          "appVersion": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "platform"
+        ]
+      },
+      "MobileSignInRequest": {
+        "type": "object",
+        "properties": {
+          "login": {
+            "type": "string",
+            "description": "Work email or Employee ID (FR-M1)"
+          },
+          "password": {
+            "type": "string"
+          },
+          "device": {
+            "$ref": "#/components/schemas/DeviceInfo"
+          }
+        },
+        "required": [
+          "login",
+          "password",
+          "device"
+        ]
+      },
+      "MobileSignInResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "description": "JWT, 15 minutes"
+          },
+          "accessTokenExpiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "Opaque, rotated on every refresh"
+          },
+          "refreshTokenExpiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "consentRequired": {
+            "type": "boolean",
+            "description": "FR-M4: show the consent screen before Home"
+          }
+        },
+        "required": [
+          "accessToken",
+          "accessTokenExpiresAt",
+          "refreshToken",
+          "refreshTokenExpiresAt",
+          "consentRequired"
+        ]
+      },
+      "AdminSignInRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "TokenPairResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "description": "JWT, 15 minutes"
+          },
+          "accessTokenExpiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "Opaque, rotated on every refresh"
+          },
+          "refreshTokenExpiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "accessToken",
+          "accessTokenExpiresAt",
+          "refreshToken",
+          "refreshTokenExpiresAt"
+        ]
+      },
+      "RefreshRequest": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "refreshToken"
+        ]
+      },
+      "ForgotPasswordRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "ResetPasswordRequest": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Token from the reset or invitation email"
+          },
+          "password": {
+            "type": "string",
+            "description": "PRD §9.7 rules; violations return PASSWORD_POLICY"
+          }
+        },
+        "required": [
+          "token",
+          "password"
+        ]
+      },
+      "ChangePasswordRequest": {
+        "type": "object",
+        "properties": {
+          "currentPassword": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "currentPassword",
+          "newPassword"
+        ]
+      },
+      "WorkModes": {
+        "type": "object",
+        "properties": {
+          "wfo": {
+            "type": "boolean"
+          },
+          "wfh": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "wfo",
+          "wfh"
+        ]
+      },
+      "LinkedDevice": {
+        "type": "object",
+        "properties": {
+          "platform": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DevicePlatform"
+              }
+            ]
+          },
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "boundAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "platform",
+          "model",
+          "boundAt"
+        ]
+      },
+      "ConsentStatusResponse": {
+        "type": "object",
+        "properties": {
+          "currentVersion": {
+            "type": "number",
+            "nullable": true
+          },
+          "acceptedVersion": {
+            "type": "number",
+            "nullable": true
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "body": {
+            "type": "string",
+            "nullable": true,
+            "description": "Current consent text"
+          }
+        },
+        "required": [
+          "currentVersion",
+          "acceptedVersion",
+          "required",
+          "body"
+        ]
+      },
+      "MeResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "employeeCode": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "joinDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-01-05"
+          },
+          "workModes": {
+            "$ref": "#/components/schemas/WorkModes"
+          },
+          "device": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LinkedDevice"
+              }
+            ]
+          },
+          "roles": {
+            "type": "array",
+            "description": "PRD §4.1, computed",
+            "items": {
+              "type": "string",
+              "enum": [
+                "STAFF",
+                "TEAM_LEAD",
+                "MANAGER",
+                "HR"
+              ]
+            }
+          },
+          "consent": {
+            "$ref": "#/components/schemas/ConsentStatusResponse"
+          }
+        },
+        "required": [
+          "id",
+          "employeeCode",
+          "fullName",
+          "email",
+          "phone",
+          "joinDate",
+          "workModes",
+          "device",
+          "roles",
+          "consent"
+        ]
+      },
+      "AcceptConsentRequest": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "number",
+            "description": "The version the user read; must be the current one"
+          }
+        },
+        "required": [
+          "version"
+        ]
+      },
+      "AdminRole": {
+        "type": "string",
+        "enum": [
+          "SUPER_ADMIN",
+          "HR_ADMIN",
+          "HR",
+          "MANAGER",
+          "TEAM_LEAD"
+        ]
+      },
+      "AdminScopeKind": {
+        "type": "string",
+        "enum": [
+          "TEAM",
+          "DEPARTMENTS",
+          "ALL"
+        ]
+      },
+      "AdminScopeResponse": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AdminScopeKind"
+              }
+            ]
+          },
+          "departmentIds": {
+            "description": "Only for DEPARTMENTS",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "kind",
+          "departmentIds"
+        ]
+      },
+      "AdminMeResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "employeeId": {
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AdminRole"
+              }
+            ]
+          },
+          "scope": {
+            "$ref": "#/components/schemas/AdminScopeResponse"
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "dashboard.read",
+                "reports.read",
+                "review.decide",
+                "attendance.override",
+                "employees.read",
+                "employees.write",
+                "employees.delete",
+                "org.write",
+                "settings.write",
+                "admin-users.write",
+                "audit.read"
+              ]
+            }
+          },
+          "features": {
+            "$ref": "#/components/schemas/AppFeatures"
+          },
+          "companyName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "displayName",
+          "email",
+          "employeeId",
+          "role",
+          "scope",
+          "permissions",
+          "features",
+          "companyName"
+        ]
+      },
+      "ErrorCode": {
+        "type": "string",
+        "enum": [
+          "VALIDATION_FAILED",
+          "UNAUTHENTICATED",
+          "FORBIDDEN",
+          "NOT_FOUND",
+          "CONFLICT",
+          "PAYLOAD_TOO_LARGE",
+          "RATE_LIMITED",
+          "INTERNAL",
+          "INVALID_CREDENTIALS",
+          "TOKEN_INVALID",
+          "ACCOUNT_LOCKED",
+          "ACCOUNT_DEACTIVATED",
+          "MOBILE_ACCESS_DENIED",
+          "NO_ADMIN_ACCESS",
+          "DEVICE_NOT_RECOGNIZED",
+          "RESET_TOKEN_INVALID",
+          "PASSWORD_POLICY",
+          "PASSWORD_REUSED",
+          "CURRENT_PASSWORD_INVALID",
+          "COMPANY_NOT_RESOLVED",
+          "CONSENT_VERSION_STALE"
+        ]
+      },
+      "ProblemDetailsResponse": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "urn:clockin:error:INVALID_CREDENTIALS"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "number"
+          },
+          "code": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ErrorCode"
+              }
+            ]
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "requestId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "title",
+          "status",
+          "code"
+        ]
+      }
+    }
+  }
 }

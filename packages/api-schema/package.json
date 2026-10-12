@@ -8,9 +8,14 @@
     "./openapi.json": "./openapi.json"
   },
   "scripts": {
+    "generate": "openapi-typescript openapi.json -o src/schema.ts && prettier --write src/schema.ts",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@clockin/tsconfig": "workspace:*"
+    "@clockin/tsconfig": "workspace:*",
+    "openapi-typescript": "^7.13.0"
+  },
+  "dependencies": {
+    "openapi-fetch": "^0.17.0"
   }
 }

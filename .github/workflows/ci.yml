@@ -38,3 +38,12 @@ jobs:
       - run: bun run typecheck
       - run: bun run test
       - run: bun run build
+
+      - name: OpenAPI and generated client are up to date
+        run: |
+          bun run --filter api openapi:emit
+          git diff --exit-code packages/api-schema
+
+      # Testcontainers starts Postgres and Redis on the runner's Docker.
+      - name: API e2e tests
+        run: bun run --filter api test:e2e
