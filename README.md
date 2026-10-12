@@ -8,7 +8,7 @@ Office attendance system: a mobile app for employees to clock in/out with GPS + 
 
 | Part | Tech | Path |
 |---|---|---|
-| Backend API | NestJS · Prisma · PostgreSQL 16 · Redis/BullMQ · S3 (MinIO) | `apps/api` |
+| Backend API | NestJS · Prisma · PostgreSQL 16 · Redis/BullMQ · S3 (RustFS locally) | `apps/api` |
 | Web admin | Nuxt 4 · Nuxt UI · Tailwind v4 · Pinia | `apps/admin` |
 | Mobile | Kotlin Multiplatform · Compose Multiplatform · MVVM (**Android first**, iOS after pilot) | `apps/mobile` |
 | API contract | OpenAPI 3.1 + generated TS client | `packages/api-schema` |
@@ -34,7 +34,7 @@ Requirements: Bun 1.2+ (package manager + scripts), Node 22 LTS (runtime for API
 bun install
 cp apps/api/.env.example apps/api/.env
 cp apps/admin/.env.example apps/admin/.env
-docker compose up -d                 # postgres, redis, minio, mailpit
+docker compose up -d                 # postgres, redis, rustfs (S3), mailpit
 bun run --filter api prisma:migrate
 bun run --filter api db:seed         # demo company + admin users
 bun run dev                          # api :3000, admin :3001
@@ -45,7 +45,7 @@ bun run dev                          # api :3000, admin :3001
 | API / OpenAPI docs | http://localhost:3000/v1 · http://localhost:3000/docs |
 | Web admin | http://localhost:3001 |
 | Mailpit (dev email) | http://localhost:8025 |
-| MinIO console | http://localhost:9001 |
+| RustFS (S3) console | http://localhost:9001 |
 
 Mobile: open `apps/mobile` in Android Studio and run the `dev` flavor; on the emulator the API is at `http://10.0.2.2:3000`. iOS (`apps/mobile/iosApp` in Xcode) comes after the Android pilot.
 

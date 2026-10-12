@@ -66,7 +66,7 @@ clockin/
 │   ├── eslint-config/
 │   └── tsconfig/
 ├── docs/                    PRD, design system, screens, this file
-├── docker-compose.yml       local infra: postgres, redis, minio, mailpit
+├── docker-compose.yml       local infra: postgres, redis, rustfs (S3), mailpit
 ├── docker-compose.prod.yml  full stack for servers (see DEPLOYMENT.md)
 ├── deploy/                  Caddyfile, .env.prod.example, deploy.sh, backup.sh
 ├── PLAN.md
@@ -81,7 +81,7 @@ Tooling versions: Bun 1.2+ (package manager), Node 22 LTS (runtime), TypeScript 
 
 | Env | Purpose | Infra |
 |---|---|---|
-| local | Dev | `docker compose up` → Postgres, Redis, MinIO, Mailpit; API on :3000, admin on :3001 |
+| local | Dev | `docker compose up` → Postgres, Redis, RustFS (S3), Mailpit; API on :3000, admin on :3001 |
 | staging | QA, pilot dry-run, Play internal testing builds (TestFlight once iOS ships) | Same images as prod, seeded demo company |
 | production | Pilot | One VPS running `docker-compose.prod.yml`: Caddy (auto-TLS) → `api`, `admin`; `worker`; Postgres, Redis, MinIO on the internal network; images from GHCR; daily off-server backups |
 

@@ -12,9 +12,11 @@ Goal: **one command to run locally, one command to deploy.** Everything server-s
 | `clockin-admin` | `apps/admin/Dockerfile` | `node .output/server/index.mjs` (Nuxt + BFF) | 3001 |
 | `postgres` | `postgres:16-alpine` | Database | 5432 (internal) |
 | `redis` | `redis:7-alpine` | BullMQ + rate limiting | 6379 (internal) |
-| `minio` | `minio/minio` | S3 storage (skip in prod if using managed S3) | 9000 (internal) |
+| `rustfs` | `rustfs/rustfs` | S3-compatible storage (replaces MinIO, see note below; skip in prod if using managed S3) | 9000 (internal) |
 | `caddy` | `caddy:2-alpine` | TLS (auto Let's Encrypt) + reverse proxy | 80, 443 |
 | `mailpit` | `axllent/mailpit` | Dev only: catches email | 8025 |
+
+> **Object storage note (Oct 2026):** MinIO CE was archived upstream (Apr 2026) and its Docker images are no longer published. Local dev uses **RustFS** (same S3 API and ports). The production sections below still say `minio`; pick RustFS or managed S3 in D1 and update them. The app only depends on the `S3_*` env vars.
 
 Build principle: **Bun installs and builds, Node 22 runs** (ARCHITECTURE §1). Images are multi-stage, run as non-root, and contain no dev dependencies or source maps of secrets.
 
@@ -161,22 +163,29 @@ services:
   redis:
     image: redis:7-alpine
     ports: ["6379:6379"]
-  minio:
-    image: minio/minio:latest   # pin a dated RELEASE tag when implementing
-    command: server /data --console-address ":9001"
-    environment: { MINIO_ROOT_USER: clockin, MINIO_ROOT_PASSWORD: clockin-secret }
-    ports: ["9000:9000","9001:9001"]
-    volumes: [minio-data:/data]
-  minio-init:
-    image: minio/mc:latest
-    depends_on: [minio]
+  rustfs:
+    image: rustfs/rustfs:1.0.1
+    environment:
+      RUSTFS_ACCESS_KEY: clockin
+      RUSTFS_SECRET_KEY: clockin-secret
+      RUSTFS_CONSOLE_ENABLE: 'true'
+    ports: ['9000:9000', '9001:9001']
+    volumes: [s3-data:/data]
+  s3-init:
+    image: amazon/aws-cli:2.37.12
+    depends_on: [rustfs]
+    environment:
+      AWS_ACCESS_KEY_ID: clockin
+      AWS_SECRET_ACCESS_KEY: clockin-secret
+      AWS_DEFAULT_REGION: us-east-1
+    # Bucket stays private (no policy): the API hands out presigned URLs only.
     entrypoint: >
-      sh -c "until mc alias set local http://minio:9000 clockin clockin-secret; do sleep 1; done;
-             mc mb -p local/clockin && mc anonymous set none local/clockin"
+      sh -c "until aws --endpoint-url http://rustfs:9000 s3api head-bucket --bucket clockin 2>/dev/null
+             || aws --endpoint-url http://rustfs:9000 s3 mb s3://clockin; do sleep 1; done"
   mailpit:
-    image: axllent/mailpit:latest
+    image: axllent/mailpit:v1.24
     ports: ["1025:1025","8025:8025"]
-volumes: { pg-data: {}, minio-data: {} }
+volumes: { pg-data: {}, s3-data: {} }
 ```
 
 Optional: a `full` profile that also builds and runs `api`, `worker` and `admin` from the Dockerfiles, to smoke-test images locally: `docker compose --profile full up --build`.

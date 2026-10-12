@@ -1,0 +1,11 @@
+node_modules
+dist
+.output
+.nuxt
+.turbo
+coverage
+bun.lock
+docs
+apps/mobile
+packages/api-schema/openapi.json
+*.md

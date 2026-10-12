@@ -1,0 +1,2 @@
+[install]
+linker = "hoisted" # Node runtime in the images expects a classic node_modules tree

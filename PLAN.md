@@ -33,13 +33,13 @@ Read first: [`docs/implementation/PRD.md`](docs/implementation/PRD.md) (what), [
 ### F1 · Monorepo, tooling, local infra
 
 - [ ] Init git repo, `.gitignore`, `.editorconfig`, `LICENSE` (if any), branch protection on `main`
-- [ ] Bun workspaces (`"workspaces"` in root `package.json`, `bun.lock` committed) + Turborepo (`apps/api`, `apps/admin`, `packages/api-schema`, `packages/eslint-config`, `packages/tsconfig`); `apps/mobile` lives in the repo but builds with Gradle
-- [ ] Shared ESLint (flat config) + Prettier + TypeScript strict configs
-- [ ] Docker for local dev per [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) §1, §4: `.dockerignore`, `bunfig.toml` (hoisted linker), `docker-compose.yml` with Postgres 16, Redis 7, MinIO (+ bucket init), Mailpit
-- [ ] Empty `deploy/` folder skeleton: `Caddyfile`, `.env.prod.example`, `deploy.sh`, `backup.sh` (filled in D1)
-- [ ] `.env.example` for api and admin (keys from ARCHITECTURE §3)
-- [ ] GitHub Actions skeleton (`oven-sh/setup-bun` + Node 22): bun install --frozen-lockfile, lint, typecheck, test, build with Turborepo cache
-- [ ] Commit convention (Conventional Commits) + PR template per [`docs/CONTRIBUTION.md`](docs/CONTRIBUTION.md)
+- [x] Bun workspaces (`"workspaces"` in root `package.json`, `bun.lock` committed) + Turborepo (`apps/api`, `apps/admin`, `packages/api-schema`, `packages/eslint-config`, `packages/tsconfig`); `apps/mobile` lives in the repo but builds with Gradle
+- [x] Shared ESLint (flat config) + Prettier + TypeScript strict configs
+- [x] Docker for local dev per [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) §1, §4: `.dockerignore`, `bunfig.toml` (hoisted linker), `docker-compose.yml` with Postgres 16, Redis 7, RustFS S3 (+ bucket init; MinIO CE images discontinued), Mailpit
+- [x] Empty `deploy/` folder skeleton: `Caddyfile`, `.env.prod.example`, `deploy.sh`, `backup.sh` (filled in D1)
+- [x] `.env.example` for api and admin (keys from ARCHITECTURE §3)
+- [x] GitHub Actions skeleton (`oven-sh/setup-bun` + Node 22): bun install --frozen-lockfile, lint, typecheck, test, build with Turborepo cache
+- [x] Commit convention (Conventional Commits) + PR template per [`docs/CONTRIBUTION.md`](docs/CONTRIBUTION.md)
 
 **Done when:** `bun install && docker compose up -d && bun run dev` starts empty API and admin apps; CI passes on an empty PR.
 

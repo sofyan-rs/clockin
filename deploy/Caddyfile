@@ -1,0 +1,15 @@
+# Filled in D1 (DEPLOYMENT.md §5).
+{$API_DOMAIN} {
+	encode gzip
+	reverse_proxy api:3000
+}
+
+{$ADMIN_DOMAIN} {
+	encode gzip
+	reverse_proxy admin:3001
+}
+
+{$FILES_DOMAIN} {
+	# Presigned URLs must use this public host (S3_PUBLIC_ENDPOINT)
+	reverse_proxy minio:9000
+}
